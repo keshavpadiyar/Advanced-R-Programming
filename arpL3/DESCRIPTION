@@ -1,0 +1,9 @@
+Package: arpL3
+Type: Package
+Title: Advanced R Programming Lab 3 - get the GCD of 2 Integers
+Version: 1.0
+Date: 2020-09-09
+Author: Keshav Padiyar Manuru (kespa139)
+Maintainer: Keshav Padiyar Manuru <kespa139@student.liu.se>, Siddharth Saminathan <sidsa666@student.liu.se>
+Description: This package contains the function to find the GCD of 2 Integers.
+RoxygenNote: 7.1.1
