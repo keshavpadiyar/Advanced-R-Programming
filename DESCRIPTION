@@ -10,6 +10,7 @@ Description: This package contains the function to find the GCD of 2 Integers.
 License: MIT + file LICENSE
 Depends: R (>= 2.10)
 Encoding: UTF-8
+RoxygenNote: 6.1.1
 LazyData: true
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
