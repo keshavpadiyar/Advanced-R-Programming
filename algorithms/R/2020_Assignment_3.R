@@ -34,8 +34,8 @@ euclidean <- function (int1,int2){
 
 #' Find the shortest path Between vertices using Dijkstra's algorithm
 #'
-#' @param data Data frame consisting vertices and distance between them 
-#' @param node Initial Node/vertex from which the distance is to be calculated 
+#' @param  graph Data frame consisting vertices and distance between them 
+#' @param init_node Initial Node/vertex from which the distance is to be calculated 
 #'
 #' @return Shortest distance from the initial node/Vertex to all other vertices
 #' @export
@@ -56,15 +56,16 @@ euclidean <- function (int1,int2){
 #'dijkstra(wiki_graph,1)
 #' 0 7 9 20 20 11}
 #'
-dijkstra <- function(data, node) {
-  stopifnot((is.data.frame(data)) && (ncol(data)==3))
+dijkstra <- function( graph,  init_node) {
+  stopifnot((is.data.frame( graph)) && (ncol( graph)==3))
 # Convert the given data frame into Matrix, to traverse through all 
 # possible path and get the shortest one
-  vl_vertices <- unlist(unique(data[1]))
+  vl_vertices <- unlist(unique(graph[1]))
+  stopifnot(any(vl_vertices==init_node))
   N <- length(vl_vertices)
   mat_graph <- matrix(0, nrow = N, ncol = N, byrow = FALSE)
   for (i in 1:N) {
-    vl_temp <- subset(data, data[1] == i)
+    vl_temp <- subset(graph, graph[1] == i)
     for (j in 1:nrow(vl_temp)) {
       x <- unlist((vl_temp[j, ]))
       mat_graph[x[1], x[2]] <- x[3]
@@ -75,7 +76,7 @@ dijkstra <- function(data, node) {
   vl_weight <- replicate(N, Inf)
   vl_traversed <- replicate(N, 0)
 # Initialize the distance from the required node to itself as Zero
-  vl_weight[node] <- 0
+  vl_weight[ init_node] <- 0
 # Run the loop till all the vertices/Nodes are not traversed
   while (sum(vl_traversed) < N) {
     vl_edges <- replicate(N, Inf)

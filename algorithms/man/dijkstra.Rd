@@ -4,12 +4,12 @@
 \alias{dijkstra}
 \title{Find the shortest path Between vertices using Dijkstra's algorithm}
 \usage{
-dijkstra(data, node)
+dijkstra(graph, init_node)
 }
 \arguments{
-\item{data}{Data frame consisting vertices and distance between them}
+\item{graph}{Data frame consisting vertices and distance between them}
 
-\item{node}{Initial Node/vertex from which the distance is to be calculated}
+\item{init_node}{Initial Node/vertex from which the distance is to be calculated}
 }
 \value{
 Shortest distance from the initial node/Vertex to all other vertices
