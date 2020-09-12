@@ -21,7 +21,7 @@
 #' 
 euclidean <- function (int1,int2){
   stopifnot((is.atomic(int1))&&(is.atomic(int2)&&(is.numeric(int1))&&(is.numeric(int2))))
-#' If the user inputs decimal values, the program rounds it to the integer.
+# If the user inputs decimal values, the program rounds it to the integer.
   int1 = round(int1,0)
   int2 = round(int2,0)
   if (int2 == 0){
@@ -40,7 +40,8 @@ euclidean <- function (int1,int2){
 #' @return Shortest distance from the initial node/Vertex to all other vertices
 #' @export
 #'
-#' @details {This function finds the shortest distance from the input vertex to all other vertices.
+#' @details {This function finds the shortest distance from the input 
+#' vertex to all other vertices.
 #'    
 #'For additional information click on the below URL
 #'
@@ -56,9 +57,9 @@ euclidean <- function (int1,int2){
 #' 0 7 9 20 20 11}
 #'
 dijkstra <- function(data, node) {
-#' validate the input data is a data frame of 3 columns
   stopifnot((is.data.frame(data)) && (ncol(data)==3))
-#' Convert the given data frame into Matrix, to traverse through all possible path and get the shortest one
+# Convert the given data frame into Matrix, to traverse through all 
+# possible path and get the shortest one
   vl_vertices <- unlist(unique(data[1]))
   N <- length(vl_vertices)
   mat_graph <- matrix(0, nrow = N, ncol = N, byrow = FALSE)
@@ -69,13 +70,13 @@ dijkstra <- function(data, node) {
       mat_graph[x[1], x[2]] <- x[3]
     }
   }
-#' Assign the unknown distances as Infinity.
+# Assign the unknown distances as Infinity.
   mat_graph[mat_graph == 0] <- Inf
   vl_weight <- replicate(N, Inf)
   vl_traversed <- replicate(N, 0)
-#' Initialize the distance from the required node to itself as Zero
+# Initialize the distance from the required node to itself as Zero
   vl_weight[node] <- 0
-#' Run the loop till all the vertices/Nodes are not traversed
+# Run the loop till all the vertices/Nodes are not traversed
   while (sum(vl_traversed) < N) {
     vl_edges <- replicate(N, Inf)
     for (i in 1:N) {

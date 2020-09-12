@@ -30,5 +30,4 @@ For additional information click on the below URL
 euclidean(123612, 13892347912)
 4}
 
-If the user inputs decimal values, the program rounds it to the integer.
 }

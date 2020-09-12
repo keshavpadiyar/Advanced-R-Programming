@@ -18,7 +18,8 @@ Shortest distance from the initial node/Vertex to all other vertices
 Find the shortest path Between vertices using Dijkstra's algorithm
 }
 \details{
-{This function finds the shortest distance from the input vertex to all other vertices.
+{This function finds the shortest distance from the input 
+vertex to all other vertices.
    
 For additional information click on the below URL
 
@@ -33,9 +34,4 @@ wiki_graph <- data.frame(v1=c(1,1,1,2,2,2,3,3,3,3,4,4,4,5,5,6,6,6),
 dijkstra(wiki_graph,1)
 0 7 9 20 20 11}
 
-validate the input data is a data frame of 3 columns
-Convert the given data frame into Matrix, to traverse through all possible path and get the shortest one
-Assign the unknown distances as Infinity.
-Initialize the distance from the required node to itself as Zero
-Run the loop till all the vertices/Nodes are not traversed
 }
