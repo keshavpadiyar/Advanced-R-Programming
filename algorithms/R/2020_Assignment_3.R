@@ -41,7 +41,7 @@ euclidean <- function (int1,int2){
 #' @export
 #'
 #' @details {This function finds the shortest distance from the input 
-#' vertex to all other vertices.
+#' vertex/Node to all other vertices.
 #'    
 #'For additional information click on the below URL
 #'
