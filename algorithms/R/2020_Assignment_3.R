@@ -57,7 +57,7 @@ euclidean <- function (int1,int2){
 #' 0 7 9 20 20 11}
 #'
 dijkstra <- function( graph,  init_node) {
-  stopifnot((is.data.frame( graph)) && (ncol( graph)==3))
+  stopifnot((is.data.frame( graph)) && (ncol( graph)==3) && (any(names(wiki_graph)==c('v1', 'v2', 'w'))))
 # Convert the given data frame into Matrix, to traverse through all 
 # possible path and get the shortest one
   vl_vertices <- unlist(unique(graph[1]))
