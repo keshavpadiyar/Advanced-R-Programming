@@ -20,7 +20,12 @@
 #' 4}
 #' 
 euclidean <- function (int1,int2){
-  stopifnot((is.atomic(int1))&&(is.atomic(int2)&&(is.numeric(int1))&&(is.numeric(int2))))
+  stopifnot((is.atomic(int1))
+        &&(is.atomic(int2)
+            &&(is.numeric(int1))
+                &&(is.numeric(int2))
+                  && (length(int1)==1 && length(int2)==1)
+  ))
 # If the user inputs decimal values, the program rounds it to the integer.
   int1 = round(int1,0)
   int2 = round(int2,0)
