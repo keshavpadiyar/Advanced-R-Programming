@@ -5,8 +5,8 @@
     fittedval <- (x %*% coef)
     residuals <- (y - fittedval)
     df <- nrow(x) - ncol(x)
-    variance <- ((t(residuals) %*% residuals) / df)
-    covar <- variance[1] * (solve(t(x) %*% x))
+    sigma <- ((t(residuals) %*% residuals) / df)
+    covar <- sigma[1] * (solve(t(x) %*% x))
     se <- sqrt(diag(covar))
     StdErr <- round(as.matrix(se), 5)
     colnames(StdErr) <- c("Std. Error")
@@ -77,3 +77,7 @@
     cat("---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n")
   }
   model <- lm(Petal.Length ~ Species, data = iris)
+
+  ggplot(iris, aes(y=resid(model), x=predict(model))) +
+  geom_point(shape=1) +    # Use hollow circles
+  geom_smooth(method="lm", formula = y~x)
