@@ -242,25 +242,58 @@ pred <- function(x, ...) {
 #'
 plot.linreg <- function(x, ...) {
   library(ggplot2)
+  
+  liu_theme <- theme(
+    
+        panel.background = element_rect(fill="white"),
+        panel.border = element_rect(fill= NA, colour = 'black'),
+        aspect.ratio = 0.5:0.5,
+        
+        #grid elements
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_line(colour = 'black'),
+        axis.title = element_text(face = "bold", size = 10),
+        axis.line = element_line(color = 'black'),
+        axis.line.x.top = element_line(color = 'black'),
+        
+        plot.title = element_text(             
+          size = 12,
+          face = "bold",
+          hjust = 0.5,
+          vjust = 2),
+        
+        plot.caption = element_text(
+          size = 12,                 
+          hjust = 0.5),               
+        )
+  
   p1 <- qplot(
     x = x$fitted.values, y = x$residuals,
-    xlab = "Fitted Values", ylab = "Residuals"
+    xlab = "Fitted Values", ylab = "Residuals",
   ) +
     geom_point() +
     stat_summary(fun = median, color = "red", geom = "line", size = 1) +
-    ggtitle("Residuals vs Fitted")
-
+    labs( title = "Residuals vs Fitted", 
+          caption = "lm(Petal.Length ~ Species)"
+        ) +
+    liu_theme
+  
   stdresid <- sqrt(abs(as.vector(x$residuals) - mean(as.vector(x$residuals))
                                 / as.vector(sqrt(x$sigma2[1])))
                   )
   p2 <- qplot(
               x = x$fitted.values, y = stdresid,
-              xlab = "Fitted Values", ylab = "Standardized Reciduals"
+              xlab = "Fitted Values", ylab = "Standardized Residuals"
               ) +
     geom_point() +
     stat_summary(fun = mean, color = "red", geom = "line", size = 1) +
-    ggtitle("Fitted values")
-
+    labs( title = "Scale−Location", 
+          caption = "lm(Petal.Length ~ Species)"
+         ) +
+    liu_theme
+  
   library(gridExtra)
-  gridExtra::grid.arrange(p1, p2, nrow = 2)
+  gridExtra::grid.arrange(p1,p2, nrow = 2)
+
 }#  End plot
