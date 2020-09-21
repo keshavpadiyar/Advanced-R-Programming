@@ -163,7 +163,7 @@ print.linreg <- function(x, ...) {
   base::print(x$coefficients)
 }# End print
 
-summary <- function(x, ...) UseMethod("linreg")
+#summary <- function(x, ...) UseMethod("linreg")
 #' Summary method of linreg class
 #'
 #' @param x Linreg class object
@@ -172,16 +172,15 @@ summary <- function(x, ...) UseMethod("linreg")
 #' @return Returns a similar printout as printed for lm objects, but includes only the coefficients with 
 #'                        their standard error, t-value and p-value as well as the estimate of residual variance
 #'                        and the degrees of freedom in the model
-#' @export
 #'
-summary <- function(x, ...) {
+#' @export
+summary.linreg <- function(x, ...) {
   mat_val <- data.frame(
     Estimate = x$Estimate,
     "Std. Err" = x$stdErr,
     t.value = x$tval,
     p.value = x$pval
   )
-  cat("Iam here\n")
   cat("Call:\n")
   base::print(x$call)
   cat("\nResduals:\n")
@@ -195,14 +194,14 @@ summary <- function(x, ...) {
      )
 }# End summary
 
-coef <- function(x, ...) UseMethod("linreg")
+#coef <- function(x, ...) UseMethod("linreg")
 #' Coef method of linreg class
 #' @param x Linreg class object
 #' @param ... additional parameter 
-#'
+#' 
 #' @return Returns the coefficients as a named vector.
 #' @export
-coef <- function(x, ...) {
+coef.linreg <- function(x, ...) {
   return(x$coefficients)
 }# End coef
 
@@ -216,7 +215,6 @@ resid <- function(x, ...) UseMethod("linreg")
 #' @return Returns the vector of residuals e.
 #' @export
 resid <- function(x, ...) {
-
   return(x$residuals)
 }# End resid
 

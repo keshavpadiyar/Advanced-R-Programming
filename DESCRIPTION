@@ -1,6 +1,6 @@
 Package: linearRegression
 Type: Package
-Title: What the package does (short line)
+Title: Implementation of Linear Regression S3 class.
 Version: 1.0
 Date: 2020-09-21
 Author: c(person("Keshav", "Padiyar", role = c("aut", "cre"),email = "kespa139@student.liu.se"),
