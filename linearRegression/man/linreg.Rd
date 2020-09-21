@@ -4,14 +4,12 @@
 \alias{linreg}
 \title{Linear Regression S3 class- linreg}
 \usage{
-linreg(formula, data, ...)
+linreg(formula, data)
 }
 \arguments{
 \item{formula}{Equation with dependent and Independent variables.}
 
 \item{data}{Input data.frame}
-
-\item{...}{}
 }
 \value{
 Returns the linreg class object of list containing 
@@ -48,10 +46,11 @@ Methods associated with linreg class:
 6> plot(mod_object): Plots the two plots (1. Residuals vs Fitted, 2. Scale−Location) using ggplot2.
 }
 \examples{
+\dontrun{ 
 data(iris)
 mod_object <- linreg(Petal.Length~Species, data = iris)
 print(mod_object)
 summary(mod_objet)
 plot(mod_object)
-
+}
 }

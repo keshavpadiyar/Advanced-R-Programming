@@ -17,13 +17,14 @@
 #'                         10> Function call
 #' @export
 #'
-#' @examples 
+#' @examples
+#' \dontrun{ 
 #' data(iris)
 #' mod_object <- linreg(Petal.Length~Species, data = iris)
 #' print(mod_object)
 #' summary(mod_objet)
 #' plot(mod_object)
-#' 
+#' }
 #' @details This linreg class uses S3 class as object oriented programming. Uses the function lnreg as
 #'           regression computation engine. 
 #'           
@@ -42,6 +43,8 @@
 #'
 #'6> plot(mod_object): Plots the two plots (1. Residuals vs Fitted, 2. Scale−Location) using ggplot2.
 #' 
+#' @import ggplot2 
+#' @import gridExtra
 #' 
 linreg <- function(formula, data) {
   #  Fetching the formula and data as matrix
@@ -149,30 +152,15 @@ significant_stars <- function(pval) {
   stars
 }#  End significant_stars
 
-#' Print method of linreg class
-#'
-#' @param x linreg object
-#'
-#' @return Print out the coefficients and coefficient names, similar as done by the lm class.
-#' @export
-#'
-print.linreg <- function(x) {
+print.linreg <- function(x, ...) {
   cat("Call:\n")
   base::print(x$call)
   cat("\nCoefficients:\n")
   base::print(x$coefficients)
 }# End print
 
-#' Summary method of linreg class
-#'
-#' @param x linreg object
-#'
-#' @return Returns a similar printout as printed for lm objects, but includes only the coefficients with 
-#'                        their standard error, t-value and p-value as well as the estimate of residual variance
-#'                        and the degrees of freedom in the model.
-#' @export
-#'
-summary.linreg <- function(x) {
+
+summary.linreg <- function(x, ...) {
   mat_val <- data.frame(
     Estimate = x$Estimate,
     "Std. Err" = x$stdErr,
@@ -192,12 +180,12 @@ summary.linreg <- function(x) {
      )
 }# End summary
 
-coef.linreg <- function(x) {
+coef.linreg <- function(x, ...) {
   return(x$coefficients)
 }# End coef
 
-resid <- function(x) UseMethod("linreg")
-resid <- function(x) {
+resid <- function(x, ...) UseMethod("linreg")
+resid <- function(x, ...) {
   return(x$residuals)
 }# End resid
 
@@ -206,7 +194,8 @@ pred <- function(x) {
   return(x$fitted.values)
 }# End pred
 
-plot.linreg <- function(x) {
+
+plot.linreg <- function(x, ...) {
   library(ggplot2)
   p1 <- qplot(
     x = x$fitted.values, y = x$residuals,
@@ -228,5 +217,5 @@ plot.linreg <- function(x) {
     ggtitle("Fitted values")
 
   library(gridExtra)
-  grid.arrange(p1, p2, nrow = 2)
+  gridExtra::grid.arrange(p1, p2, nrow = 2)
 }#  End plot
