@@ -1,4 +1,3 @@
-# Initalization S3 class - linreg
 #' Linear Regression S3 class- linreg
 #'
 #' @param formula Equation with dependent and Independent variables.
@@ -15,6 +14,10 @@
 #'                         8> T value
 #'                         9> P value
 #'                         10> Function call
+#' @import ggplot2 
+#' @import gridExtra
+#'  
+#'                         
 #' @export
 #'
 #' @examples
@@ -43,8 +46,6 @@
 #'
 #'6> plot(mod_object): Plots the two plots (1. Residuals vs Fitted, 2. Scale−Location) using ggplot2.
 #' 
-#' @import ggplot2 
-#' @import gridExtra
 #' 
 linreg <- function(formula, data) {
   #  Fetching the formula and data as matrix
@@ -128,13 +129,7 @@ lnreg <- function(x, y) {
   )
 }#  End lnreg
 
-#' Significant Stars Function
-#'
-#' @param pval P values
-#'
-#' @return Returns the significant stars based on the \code{pval}
-#' @export
-#' 
+
 significant_stars <- function(pval) {
   stars <- ""
   if (pval <= 0.001) {
@@ -152,6 +147,15 @@ significant_stars <- function(pval) {
   stars
 }#  End significant_stars
 
+
+#' Print method of linreg class
+#'
+#' @param x Linreg class object
+#' @param ... additional parameter 
+#'
+#' @return Prints out the regression formula and data along with the coefficients
+#' @export
+#'
 print.linreg <- function(x, ...) {
   cat("Call:\n")
   base::print(x$call)
@@ -159,14 +163,25 @@ print.linreg <- function(x, ...) {
   base::print(x$coefficients)
 }# End print
 
-
-summary.linreg <- function(x, ...) {
+summary <- function(x, ...) UseMethod("linreg")
+#' Summary method of linreg class
+#'
+#' @param x Linreg class object
+#' @param ... additional parameter 
+#'
+#' @return Returns a similar printout as printed for lm objects, but includes only the coefficients with 
+#'                        their standard error, t-value and p-value as well as the estimate of residual variance
+#'                        and the degrees of freedom in the model
+#' @export
+#'
+summary <- function(x, ...) {
   mat_val <- data.frame(
     Estimate = x$Estimate,
     "Std. Err" = x$stdErr,
     t.value = x$tval,
     p.value = x$pval
   )
+  cat("Iam here\n")
   cat("Call:\n")
   base::print(x$call)
   cat("\nResduals:\n")
@@ -180,21 +195,53 @@ summary.linreg <- function(x, ...) {
      )
 }# End summary
 
-coef.linreg <- function(x, ...) {
+coef <- function(x, ...) UseMethod("linreg")
+#' Coef method of linreg class
+#' @param x Linreg class object
+#' @param ... additional parameter 
+#'
+#' @return Returns the coefficients as a named vector.
+#' @export
+coef <- function(x, ...) {
   return(x$coefficients)
 }# End coef
 
+
 resid <- function(x, ...) UseMethod("linreg")
+#' Resid method of linreg class
+#'
+#' @param x Linreg class object
+#' @param ... additional parameter
+#'
+#' @return Returns the vector of residuals e.
+#' @export
 resid <- function(x, ...) {
+
   return(x$residuals)
 }# End resid
 
+
 pred <- function(x) UseMethod("linreg")
-pred <- function(x) {
+#' Pred method of linreg class
+#'
+#' @param x Linreg class object
+#' @param ... additional parameter
+#' 
+#' @return Returns the predicted values y.
+#' @export
+pred <- function(x, ...) {
   return(x$fitted.values)
 }# End pred
 
 
+#' Plot method of linreg class
+#'
+#' @param x Linreg class object
+#' @param ... additional parameter
+#'
+#' @return Plots the two plots (1. Residuals vs Fitted, 2. Scale−Location) using ggplot2.
+#' @export
+#'
 plot.linreg <- function(x, ...) {
   library(ggplot2)
   p1 <- qplot(
