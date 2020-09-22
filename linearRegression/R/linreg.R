@@ -14,8 +14,6 @@
 #'                         8> T value
 #'                         9> P value
 #'                         10> Function call
-#' @import ggplot2 
-#' @import gridExtra
 #'  
 #'                         
 #' @export
@@ -44,7 +42,7 @@
 #'
 #'5> pred(mod_object): Returns the predicted values y.
 #'
-#'6> plot(mod_object): Plots the two plots (1. Residuals vs Fitted, 2. Scale−Location) using ggplot2.
+#'6> plot(mod_object): Plots the two plots (1. Residuals vs Fitted, 2. Scale-Location) using ggplot2.
 #' 
 #' 
 linreg <- function(formula, data) {
@@ -64,13 +62,13 @@ linreg <- function(formula, data) {
 #  Function to compute the regression - regression computation engine.
 lnreg <- function(x, y) {
 
-  #  Calculate the Regression Coefficients using the formula : β^ = [t(x)*t] * [t(x)*y]
+  #  Calculate the Regression Coefficients using the formula : BETA^ = [t(x)*t] * [t(x)*y]
   coef <- (solve(t(x) %*% x)) %*% (t(x) %*% y)
 
-  #  Get Predicted values based on the regression coefficients: yˆ = Xβˆ
+  #  Get Predicted values based on the regression coefficients: y^ = XBETA^
   fittedval <- (x %*% coef)
 
-  #  Get the residuals: ˆ = y − ˆy = y − Xβˆ
+  #  Get the residuals:  = y − y^ = y − XBETA^
   residuals <- (y - fittedval)
 
   #  Calculate the degrees of freedom: number of rows - total number of variables
@@ -166,7 +164,7 @@ print.linreg <- function(x, ...) {
 #summary <- function(x, ...) UseMethod("linreg")
 #' Summary method of linreg class
 #'
-#' @param x Linreg class object
+#' @param object Linreg class object
 #' @param ... additional parameter 
 #'
 #' @return Returns a similar printout as printed for lm objects, but includes only the coefficients with 
@@ -174,52 +172,52 @@ print.linreg <- function(x, ...) {
 #'                        and the degrees of freedom in the model
 #'
 #' @export
-summary.linreg <- function(x, ...) {
+summary.linreg <- function(object, ...) {
   mat_val <- data.frame(
-    Estimate = x$Estimate,
-    "Std. Err" = x$stdErr,
-    t.value = x$tval,
-    p.value = x$pval
+    Estimate = object$Estimate,
+    "Std. Err" = object$stdErr,
+    t.value = object$tval,
+    p.value = object$pval
   )
   cat("Call:\n")
-  base::print(x$call)
+  base::print(object$call)
   cat("\nResduals:\n")
-  base::print(base::summary(x$residuals)[-4])
+  base::print(base::summary(object$residuals)[-4])
   cat("\ncoefficients:\n")
   base::print(mat_val)
   cat("---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n")
   cat("Residual standard error:",
-      round(sqrt(diag(x$sigma2)[1]), 4), "on",
-      x$df, "degrees of freedom"
+      round(sqrt(diag(object$sigma2)[1]), 4), "on",
+      object$df, "degrees of freedom"
      )
 }# End summary
 
 #coef <- function(x, ...) UseMethod("linreg")
 #' Coef method of linreg class
-#' @param x Linreg class object
+#' @param object Linreg class object
 #' @param ... additional parameter 
 #' 
 #' @return Returns the coefficients as a named vector.
 #' @export
-coef.linreg <- function(x, ...) {
-  return(x$coefficients)
+coef.linreg <- function(object, ...) {
+  return(object$coefficients)
 }# End coef
 
 
-resid <- function(x, ...) UseMethod("linreg")
+resid <- function(object, ...) UseMethod("resid")
 #' Resid method of linreg class
 #'
-#' @param x Linreg class object
+#' @param object Linreg class object
 #' @param ... additional parameter
 #'
 #' @return Returns the vector of residuals e.
 #' @export
-resid <- function(x, ...) {
-  return(x$residuals)
+resid.linreg <- function(object, ...) {
+  return(object$residuals)
 }# End resid
 
 
-pred <- function(x) UseMethod("linreg")
+pred <- function(x) UseMethod("pred")
 #' Pred method of linreg class
 #'
 #' @param x Linreg class object
@@ -227,7 +225,7 @@ pred <- function(x) UseMethod("linreg")
 #' 
 #' @return Returns the predicted values y.
 #' @export
-pred <- function(x, ...) {
+pred.linreg <- function(x) {
   return(x$fitted.values)
 }# End pred
 
@@ -238,10 +236,13 @@ pred <- function(x, ...) {
 #' @param ... additional parameter
 #'
 #' @return Plots the two plots (1. Residuals vs Fitted, 2. Scale−Location) using ggplot2.
+#' 
+#' @import ggplot2 
+#' @import gridExtra
+#' 
 #' @export
 #'
 plot.linreg <- function(x, ...) {
-  library(ggplot2)
   
   liu_theme <- theme(
     
@@ -278,22 +279,20 @@ plot.linreg <- function(x, ...) {
           caption = "lm(Petal.Length ~ Species)"
         ) +
     liu_theme
-  
-  stdresid <- sqrt(abs(as.vector(x$residuals) - mean(as.vector(x$residuals))
-                                / as.vector(sqrt(x$sigma2[1])))
-                  )
+
+       
+  stdresid <- sqrt(abs(scale(as.vector(x$residuals))))
   p2 <- qplot(
               x = x$fitted.values, y = stdresid,
               xlab = "Fitted Values", ylab = "Standardized Residuals"
               ) +
     geom_point() +
     stat_summary(fun = mean, color = "red", geom = "line", size = 1) +
-    labs( title = "Scale−Location", 
+    labs( title = "Scale-Location", 
           caption = "lm(Petal.Length ~ Species)"
          ) +
     liu_theme
   
-  library(gridExtra)
   gridExtra::grid.arrange(p1,p2, nrow = 2)
 
 }#  End plot

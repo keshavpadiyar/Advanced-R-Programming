@@ -4,10 +4,10 @@
 \alias{coef.linreg}
 \title{Coef method of linreg class}
 \usage{
-\method{coef}{linreg}(x, ...)
+\method{coef}{linreg}(object, ...)
 }
 \arguments{
-\item{x}{Linreg class object}
+\item{object}{Linreg class object}
 
 \item{...}{additional parameter}
 }

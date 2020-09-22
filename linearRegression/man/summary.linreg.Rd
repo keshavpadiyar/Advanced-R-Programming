@@ -4,10 +4,10 @@
 \alias{summary.linreg}
 \title{Summary method of linreg class}
 \usage{
-\method{summary}{linreg}(x, ...)
+\method{summary}{linreg}(object, ...)
 }
 \arguments{
-\item{x}{Linreg class object}
+\item{object}{Linreg class object}
 
 \item{...}{additional parameter}
 }

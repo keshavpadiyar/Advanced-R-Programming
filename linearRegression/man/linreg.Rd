@@ -43,7 +43,7 @@ Methods associated with linreg class:
 
 5> pred(mod_object): Returns the predicted values y.
 
-6> plot(mod_object): Plots the two plots (1. Residuals vs Fitted, 2. Scale−Location) using ggplot2.
+6> plot(mod_object): Plots the two plots (1. Residuals vs Fitted, 2. Scale-Location) using ggplot2.
 }
 \examples{
 \dontrun{ 
