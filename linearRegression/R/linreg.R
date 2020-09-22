@@ -68,7 +68,7 @@ lnreg <- function(x, y) {
   #  Get Predicted values based on the regression coefficients: y^ = XBETA^
   fittedval <- (x %*% coef)
 
-  #  Get the residuals:  = y − y^ = y − XBETA^
+  #  Get the residuals:  = y - y^ = y - XBETA^
   residuals <- (y - fittedval)
 
   #  Calculate the degrees of freedom: number of rows - total number of variables
@@ -110,7 +110,7 @@ lnreg <- function(x, y) {
     
     residuals = structure(as.vector(t(residuals)), names = 1:nrow(residuals)),
     
-    fitted.values = structure(as.vector(t(fittedval)),
+    fittedvalues = structure(as.vector(t(fittedval)),
                           names = colnames(t(fittedval))
                           ),
     df = df,
@@ -216,17 +216,16 @@ resid.linreg <- function(object, ...) {
   return(object$residuals)
 }# End resid
 
-
-pred <- function(x) UseMethod("pred")
-#' Pred method of linreg class
+pred <- function(object) UseMethod("linreg")
+#' pred method of linreg class
 #'
-#' @param x Linreg class object
-#' @param ... additional parameter
-#' 
+#' @param object Linreg class object
+#'
 #' @return Returns the predicted values y.
 #' @export
-pred.linreg <- function(x) {
-  return(x$fitted.values)
+
+pred <- function(object) {
+  return(object$fittedvalues)
 }# End pred
 
 
@@ -235,7 +234,7 @@ pred.linreg <- function(x) {
 #' @param x Linreg class object
 #' @param ... additional parameter
 #'
-#' @return Plots the two plots (1. Residuals vs Fitted, 2. Scale−Location) using ggplot2.
+#' @return Plots the two plots (1. Residuals vs Fitted, 2. Scale - Location) using ggplot2.
 #' 
 #' @import ggplot2 
 #' @import gridExtra
@@ -270,7 +269,7 @@ plot.linreg <- function(x, ...) {
         )
   
   p1 <- qplot(
-    x = x$fitted.values, y = x$residuals,
+    x = x$fittedvalues, y = x$residuals,
     xlab = "Fitted Values", ylab = "Residuals",
   ) +
     geom_point() +
@@ -283,7 +282,7 @@ plot.linreg <- function(x, ...) {
        
   stdresid <- sqrt(abs(scale(as.vector(x$residuals))))
   p2 <- qplot(
-              x = x$fitted.values, y = stdresid,
+              x = x$fittedvalues, y = stdresid,
               xlab = "Fitted Values", ylab = "Standardized Residuals"
               ) +
     geom_point() +

@@ -12,7 +12,7 @@
 \item{...}{additional parameter}
 }
 \value{
-Plots the two plots (1. Residuals vs Fitted, 2. Scale−Location) using ggplot2.
+Plots the two plots (1. Residuals vs Fitted, 2. Scale - Location) using ggplot2.
 }
 \description{
 Plot method of linreg class
