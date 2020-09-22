@@ -1,0 +1,117 @@
+---
+title: "WorkFlow of Linear Regression"
+author: "Siddahrth Saminathan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Workflow of}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r , include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 5,
+  fig.height = 5
+)
+```
+
+
+In This lab we demonstrate Linear Regression in R using basic Linear Algebra.This package is created to calculate the Linear Regression of two variables.
+The package starts of with a function linreg() which computes the Regression coefficients of the dependent variable X with respect to the Independent variable y.
+The values of coefficients are calculated and returned as S3 class object output.
+
+The linreg() function performs similar to the lm() function, the goal of our function is to produce an output that is similar to the output of the lm() function. The function takes two arguments namely formula and data.
+Some of the S3 class's methods include:
+
+*1.print()*   prints the values of the coefficients.
+
+*2.summary()* gives a summary similar to the lm function but takes the individual values of coefficients 
+            calculated by Linear Algebra ( coefficients,residuals,variance,t-values,p-values)
+
+*3.coef()*    Returns the values of the coefficients as a named vector
+
+*4.plot()*    Plots the residual values as a Linear Model
+
+*5.resid()*   Returns the values of the Residuals as a vector
+
+*6.pred()*    Returns the predicted values y with respect to X
+
+## What is Linear Regression?
+In statistics, linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables. The case of one explanatory variable is called simple linear regression. Refer [Wikipedia] (https://en.wikipedia.org/wiki/Linear_regression).
+
+$y = \beta_0 + \beta_1 x + e$ \n
+ 
+where \n y intercept = $\beta_0, 
+ Slope = \beta_1$ and e is the error
+      
+       
+## Package Walkthrough
+Let us use the iris dataset as an example. We are comparing the length and species 
+thus, formula = *Petal.Length~Species*
+```{r setup}
+
+library("linearRegression")
+data(iris)
+model <- linreg(Petal.Length ~ Species, data = iris)
+
+```
+
+The output of every method is as follows
+
+1.print()
+
+```{r}
+print(model)
+
+```
+
+
+2.summarry()
+
+```{r}
+
+summary(model)
+
+```
+
+3.resid()
+
+```{r}
+
+resid(model)
+
+```
+
+4.pred()
+
+```{r}
+
+pred(model)
+
+```
+
+
+5.coef()
+
+```{r}
+
+coef(model)
+
+```
+
+
+6.plot()
+
+```{r}
+
+plot(model)
+
+
+```
+
+
+      
+            
