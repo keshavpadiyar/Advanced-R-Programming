@@ -2,16 +2,13 @@
 % Please edit documentation in R/linreg.R
 \name{pred}
 \alias{pred}
-\title{pred method of linreg class}
+\title{Predict Method}
 \usage{
 pred(object)
 }
 \arguments{
-\item{object}{Linreg class object}
-}
-\value{
-Returns the predicted values y.
+\item{object}{linreg object}
 }
 \description{
-pred method of linreg class
+Predict Method
 }

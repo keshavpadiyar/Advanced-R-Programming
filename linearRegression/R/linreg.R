@@ -199,6 +199,7 @@ summary.linreg <- function(object, ...) {
 #' 
 #' @return Returns the coefficients as a named vector.
 #' @export
+#' 
 coef.linreg <- function(object, ...) {
   return(object$coefficients)
 }# End coef
@@ -212,19 +213,29 @@ resid <- function(object, ...) UseMethod("resid")
 #'
 #' @return Returns the vector of residuals e.
 #' @export
+#' 
 resid.linreg <- function(object, ...) {
   return(object$residuals)
 }# End resid
 
-pred <- function(object) UseMethod("linreg")
+#' Predict Method
+#'
+#' @param object linreg object
+#' @export
+#' 
+
+pred <- function(object) {
+  UseMethod("pred")
+  }
 #' pred method of linreg class
 #'
 #' @param object Linreg class object
 #'
 #' @return Returns the predicted values y.
 #' @export
+#' 
 
-pred <- function(object) {
+pred.linreg <- function(object) {
   return(object$fittedvalues)
 }# End pred
 
@@ -243,22 +254,30 @@ pred <- function(object) {
 #'
 plot.linreg <- function(x, ...) {
   
+  liu_colors <- c(
+    'orange'     = "#ff532f",
+    'green'      = "#00cbae",
+    'blue'       = "#00b5e4",
+    'yellow'     = "#f7e930",
+    'light grey' = "#c0c9d0",
+    'dark grey'  = "#617a8e")
+  
   liu_theme <- theme(
     
-        panel.background = element_rect(fill="white"),
-        panel.border = element_rect(fill= NA, colour = 'black'),
+        panel.background = element_rect(fill=liu_colors["light grey"]),
+        panel.border = element_rect(fill= NA, colour = liu_colors["dark grey"]),
         aspect.ratio = 0.5:0.5,
         
         #grid elements
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.ticks = element_line(colour = 'black'),
-        axis.title = element_text(face = "bold", size = 10),
+        axis.title = element_text(face = "bold", size = 12),
         axis.line = element_line(color = 'black'),
         axis.line.x.top = element_line(color = 'black'),
         
         plot.title = element_text(             
-          size = 12,
+          size = 14,
           face = "bold",
           hjust = 0.5,
           vjust = 2),
@@ -283,7 +302,7 @@ plot.linreg <- function(x, ...) {
   stdresid <- sqrt(abs(scale(as.vector(x$residuals))))
   p2 <- qplot(
               x = x$fittedvalues, y = stdresid,
-              xlab = "Fitted Values", ylab = "Standardized Residuals"
+              xlab = "Fitted Values", ylab = expression(sqrt("Standardized Residuals"))
               ) +
     geom_point() +
     stat_summary(fun = mean, color = "red", geom = "line", size = 1) +
