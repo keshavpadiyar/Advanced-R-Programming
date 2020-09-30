@@ -202,4 +202,3 @@ getData <- function (l_kpi,l_m,l_year, url){
 #final_data = getData(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020", url = "")
 
 #write.csv(df_data,"data.csv", row.names = FALSE,col.names = TRUE, sep = ',')
-
