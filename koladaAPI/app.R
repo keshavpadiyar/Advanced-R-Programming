@@ -1,5 +1,6 @@
 library(shiny)
 library(webAPI)
+library(dplyr)
 
 
 municipality_data = getData("","","", url = "http://api.kolada.se/v2/municipality?all")
@@ -70,13 +71,16 @@ server <- function (input, output, session){
     l_year <- renderPrint(paste(as.character(input$year),collapse = ",", sep = ""))
 
 
-    url <- reactive({gsub('"','',gsub( "[[^]]*]", " ",paste("'",'"http://api.kolada.se/v2/data/kpi"',
+    url <- reactive({gsub(" ",'',gsub('"','',gsub( "[[^]]*]",'',paste('"http://api.kolada.se/v2/data/kpi"',
                                                             sub("[1]",'',l_kpi()), "municipality",
                                                             sub("[1]",'',m_area()), '"year"',
                                                             sub("[1]",'',l_year()),
-                                                            collapse = "/", sep = "/")))})
+                                                            collapse = "/", sep = "/"))))})
 
-    output$url <- renderTable({getData("","","", url = url())})
+    output$url <- renderTable({getData("","","", url = url())[,-1]})
+
+
+    #output$text <- url
 
 
 
@@ -107,9 +111,7 @@ ui <- fluidPage(
                      selected = 1)
     ),
 
-    hr(),
-
-    tableOutput("url")
+    column(4,tableOutput("url"))
 )
 
 
