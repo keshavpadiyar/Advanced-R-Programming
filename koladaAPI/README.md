@@ -1,7 +1,5 @@
+# Visualization of Data from Kolada API in Shiny
+
 library(shiny)
 
-runGitHub("koladaAPI", "rstudio")
-
-runUrl("https://github.com/rstudio/koladaAPI/archive/master.tar.gz")
-runUrl("https://github.com/rstudio/koladaAPI/archive/master.gz")
-
+runGitHub("Advanced-R-Programming", username = "keshavpadiyar", subdir = "koladaAPI/inst/", ref = "master")

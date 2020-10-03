@@ -25,13 +25,7 @@ Get API data
 url = "http://api.kolada.se/v2/data/kpi/N01951,N61714/municipality/0180,0581,0580/year/2018,2019,2020"
 
 response = getAPI(url)
-
-GET URL STATUS:
-Response http://api.kolada.se/v2/data/kpi/N01951,N61714/municipality/0180,0581,0580/year/2018,2019,2020
-Date: 2020-09-29 12:27
-Status: 200
-Content-Type: application/json; charset=utf-8
-Size: 1.56 kB
+GET URL STATUS: Success
 
 }
 }

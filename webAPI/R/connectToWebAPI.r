@@ -22,7 +22,8 @@
 #' urlConstructor(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020", url = "")
 #' http://api.kolada.se/v2/data/kpi/N01951,N61714/municipality/0180,0581,0580/year/2018,2019,2020
 #'
-#' #' urlConstructor(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020", url = "http://api.kolada.se/v2/municipality?all")
+#' #' urlConstructor(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020",
+#'               url = "http://api.kolada.se/v2/municipality?all")
 #' http://api.kolada.se/v2/municipality?all
 #' }
 urlConstructor <- function (l_kpi,l_m, l_year, url){
@@ -35,15 +36,15 @@ urlConstructor <- function (l_kpi,l_m, l_year, url){
 
   } else if (identical(l_kpi, "")) {
 
-    warning(" Please select KPI")
+    errorCondition(" Please select KPI")
 
   }else if (identical(l_m, "")){
 
-    warning(" Please select the area Municipality")
+    errorCondition(" Please select the area Municipality")
 
   }else if (identical(l_year, "")){
 
-    warning(" Please select the Year")
+    errorCondition(" Please select the Year")
 
   } else{
 
@@ -71,26 +72,18 @@ urlConstructor <- function (l_kpi,l_m, l_year, url){
 #' url = "http://api.kolada.se/v2/data/kpi/N01951,N61714/municipality/0180,0581,0580/year/2018,2019,2020"
 #'
 #' response = getAPI(url)
-#'
-#' GET URL STATUS:
-#' Response http://api.kolada.se/v2/data/kpi/N01951,N61714/municipality/0180,0581,0580/year/2018,2019,2020
-#' Date: 2020-09-29 12:27
-#' Status: 200
-#' Content-Type: application/json; charset=utf-8
-#' Size: 1.56 kB
+#' GET URL STATUS: Success
 #'
 #' }
 getAPI <- function(url){
 
   out <- GET(url = url)
 
-  cat("GET URL STATUS: \n")
-
-  print(out)
-
   warn_for_status(out)
 
   stop_for_status(out)
+
+  print("GET URL STATUS: Success")
 
   return(out)
 }
@@ -168,18 +161,11 @@ flattenJSON <- function(df, df_data){
 #' @examples
 #' \dontrun{
 #'
-#' final_data = getData(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020", url = "")
-#' GET URL STATUS:
-#' Response http://api.kolada.se/v2/data/kpi/N01951,N61714/municipality/0180,0581,0580/year/2018,2019,2020
-#' Date: 2020-09-29 12:27
-#' Status: 200
-#' Content-Type: application/json; charset=utf-8
-#' Size: 1.56 kB
-#'
-#'
+#' final_data = getData(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020")
+#  GET URL STATUS: Success
 #' }
 #'
-getData <- function (l_kpi,l_m,l_year, url){
+getData <- function (l_kpi="",l_m="",l_year="", url=""){
 
   url = urlConstructor(l_kpi,l_m, l_year, url)
 
@@ -194,11 +180,3 @@ getData <- function (l_kpi,l_m,l_year, url){
   return(df_data)
 
 }
-
-#m_data = getData("","","", url = "http://api.kolada.se/v2/municipality?all")
-
-#kpi_data = getData("","","", url = "http://api.kolada.se/v2/kpi_groups")
-
-#final_data = getData(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020", url = "")
-
-#write.csv(df_data,"data.csv", row.names = FALSE,col.names = TRUE, sep = ',')

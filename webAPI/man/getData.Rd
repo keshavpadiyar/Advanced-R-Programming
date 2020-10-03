@@ -4,7 +4,7 @@
 \alias{getData}
 \title{User function to get the data from API}
 \usage{
-getData(l_kpi, l_m, l_year, url)
+getData(l_kpi = "", l_m = "", l_year = "", url = "")
 }
 \arguments{
 \item{l_kpi}{: Required KPI Code}
@@ -28,14 +28,6 @@ User function to get the data from API
 \dontrun{
 
 final_data = getData(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020", url = "")
-GET URL STATUS:
-Response http://api.kolada.se/v2/data/kpi/N01951,N61714/municipality/0180,0581,0580/year/2018,2019,2020
-Date: 2020-09-29 12:27
-Status: 200
-Content-Type: application/json; charset=utf-8
-Size: 1.56 kB
-
-
 }
 
 }
