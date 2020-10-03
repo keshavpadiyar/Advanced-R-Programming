@@ -161,31 +161,15 @@
 
 output$bar4 <- renderPlot({
 
- 
+    ggplot(data = df(), aes(x="", y=value, fill=gender))+
+  
+     geom_bar(width = 1, stat = "identity") + theme_bw()+
+  
+  coord_polar("y", start=0)+ggtitle("Gender Distribution") +
 
+ theme(plot.title = element_text(hjust = 0.5))
 
-       ggplot(data = df(), aes(x="", y=value, fill=gender))+
-
- 
-
-         geom_bar(width = 1, stat = "identity") +
-
- 
-
-         theme_bw()+
-
- 
-
-         coord_polar("y", start=0)+ggtitle("Gender Distribution") +
-
- 
-
-         theme(plot.title = element_text(hjust = 0.5))
-
- 
-
-
-     })
+ })
   }
 
   ui <- fluidPage(
