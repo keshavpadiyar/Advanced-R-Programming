@@ -97,6 +97,7 @@
                                     )
                            }
                            )
+     
      output$bar1 <- renderPlot({
 
        ggplot(df(),
@@ -159,17 +160,25 @@
 
      })
 
-output$bar4 <- renderPlot({
-
-    ggplot(data = df(), aes(x="", y=value, fill=gender))+
-  
-     geom_bar(width = 1, stat = "identity") + theme_bw()+
-  
-  coord_polar("y", start=0)+ggtitle("Gender Distribution") +
-
- theme(plot.title = element_text(hjust = 0.5))
-
- })
+    output$bar4 <- renderPlot({
+      
+        if (nrow(df())==0){
+          
+          return("No Values To Display")
+          
+        }else{
+        
+              ggplot(data = df(), aes(x="", y=value, fill=gender))+
+            
+              geom_bar(width = 1, stat = "identity") + theme_bw()+
+            
+              coord_polar("y", start=0)+ggtitle("Gender Distribution") +
+          
+              theme(plot.title = element_text(hjust = 0.5))
+          
+        }
+    
+     })
   }
 
   ui <- fluidPage(
