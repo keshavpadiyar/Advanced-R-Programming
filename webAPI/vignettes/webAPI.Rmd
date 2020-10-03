@@ -1,0 +1,46 @@
+---
+title: "webAPI"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{webAPI}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+The webAPI package is developed to access the data from web APIs. This package uses the rest API get command to fetch data from the given URL, and the data format should be JSON. webAPI connects to the given URL, pulls the data and parses the data, ie the package will flatten the JSON file of any level of complex nests to data.frame.
+
+getData() function in the package should be used to access API and fetch data. The getData() takes below inputs and returns a data.frame.
+ *l_kpi* : Required KPI Code
+
+*l_m* : Required Municipality Code
+
+ *l_year* : Required Year
+
+ *url* : If data to be fetched from a specific URL
+ 
+ Also, the function has 2 features:
+ 
+ 1. Given only the first 3 parameter value, the function will construct URL of KOLADA API and fetches the data.
+ 
+```{r}
+library(webAPI)
+
+final_data = getData(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020", url = "")[,-1]
+
+head(final_data,10)
+```
+ 2. User can also give required URL to get the data. If the URL is given then remaining input parameter values will be ignored.
+ 
+```{r}
+library(webAPI)
+
+final_data = getData(l_m = "",l_kpi = "",l_year = "", url = "http://api.kolada.se/v2/municipality?all")[,-1]
+
+head(final_data,10)
+```
