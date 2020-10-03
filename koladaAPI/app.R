@@ -1,118 +1,227 @@
-library(shiny)
-library(webAPI)
-library(dplyr)
+  library(shiny)
+  library(webAPI)
+  library(dplyr)
 
 
-municipality_data = getData("","","", url = "http://api.kolada.se/v2/municipality?all")
+  dim_municipality_data = getData("","","", url = "http://api.kolada.se/v2/municipality/0180,0001,0580,0581,1480,1280,2480,0380,1281")[,-1]
 
-kpi_data = getData("","","", url = "http://api.kolada.se/v2/kpi?all")
+  dim_kpi_data = getData("","","", url = "http://api.kolada.se/v2/kpi/N00002,N00005Y,N00011,N00014,N00019,N00022,N00024,N00026,N00042,N00053")[,-1]
 
-server <- function (input, output, session){
+  fact_data = getData("","",url = "http://api.kolada.se/v2/data/kpi/N00002,N00005Y,N00011,N00014,N00019,N00022,N00024,N00026,N00042,N00053/municipality/0180,0001,0580,0581,1480,1280,2480,0380,1281/year/2010,2011,2012,2013,2014,2015,2016,2017,2018,2019")[,-1]
 
-    m_area <- renderPrint ({
+  join_fact_dim_temp = merge(fact_data,dim_kpi_data,by.x = c ("values.kpi"), by.y = c("values.id"), all = TRUE)
 
-        if(length(input$m_names)==0 && length(input$radio)==0)
+  join_fact_dim = merge(join_fact_dim_temp, dim_municipality_data, by.x = c("values.municipality"), by.y = c("values.id"))
 
-        {
+  server <- function (input, output, session){
 
-            return(paste(as.character(municipality_data[[2]])
-                         ,collapse =",", sep = "" )
-            )
-        }else if (length(input$m_names)==0 && length(input$radio)!=0)
+     df <- reactive({ if (length(input$m_names) == 0 )
 
-        {
+                                      {
 
-            return(paste(as.character(filter(municipality_data,
-                                             values.type %in% input$radio) [[2]]),
-                         collapse =",", sep = "" )
-            )
-        } else if (length(input$m_names)!=0 && length(input$radio)==0)
-
-        {
-
-            return(paste(as.character(filter(municipality_data,
-                                             values.title %in% input$m_names) [[2]]),
-                         collapse =",", sep = "" )
-            )
-        } else{
-
-            paste(as.character(filter (municipality_data,
-                                       (values.title %in% input$m_names)
-                                       &
-                                           (values.type %in% input$radio) )[[2]]),
-                  collapse=", ",sep="")
-        }
-
-    })
+                                             vl_m = unique(join_fact_dim$values.title.y)
 
 
-    l_kpi <- renderPrint ({
+                                      }else
 
-        if(length(input$k_names)==0)
+                                        {
+                                              vl_m = input$m_names
 
-        {
+                                        }
 
-            return(paste(as.character(unique(kpi_data[[5]]))
-                         ,collapse =",", sep = "" )
-            )
-        }else{
+                              if (length(input$k_names)==0)
 
-            as.vector(paste(as.character(unique(filter (kpi_data,
-                                                        values.title %in% input$k_names)[[5]])),
-                            collapse=", ",sep=""))
-        }
+                                        {
 
-    })
+                                              vl_k = unique(join_fact_dim$values.title.x)
+
+                                        }else
+
+                                          {
+
+                                              vl_k = input$k_names
+
+                                           }
+
+                              if (length(input$year) == 0)
+
+                                          {
+
+                                               vl_y = unique(join_fact_dim$values.period)
+
+                                          }else
+
+                                            {
+                                                  vl_y = input$year
+
+                                            }
+                             if (length(input$gender) == 0)
+
+                                           {
+
+                                                vl_g = unique(join_fact_dim$gender)
+
+                                           }else
+
+                                           {
+                                                vl_g = input$gender
+
+                                           }
+
+                           return(
+
+                                      distinct(select(filter(join_fact_dim, (values.title.y %in% vl_m)
+
+                                                      &
+                                                        (values.title.x %in% vl_k)
+
+                                                      &
+                                                         (values.period %in% vl_y)
+
+                                         ), values.title.y,
+
+                                            values.title.x,
+
+                                            values.kpi,
+
+                                            values.period,
+
+                                            gender,
+
+                                            value
+                                         )
+                                         )
+                                    )
+                           }
+                           )
+     output$bar1 <- renderPlot({
+
+       ggplot(df(),
+              aes(x = format(values.period,0), y = value, color = format(values.period,0),
+
+                        fill = format(values.period,0), label = value)) +
+         geom_col() +
+
+         ggtitle("Yearly Distributionm") +
+
+         xlab("Year") + ylab("Values") + labs(fill = "Year") + labs(color = "Year") +
+
+         theme_bw() + theme(legend.position = "right") +
+
+         theme(plot.title = element_text(hjust = 0.5))
 
 
-    output$value <- renderPrint({ input$radio })
+
+       })
 
 
-    l_year <- renderPrint(paste(as.character(input$year),collapse = ",", sep = ""))
+     output$bar2 <- renderPlot({
 
 
-    url <- reactive({gsub(" ",'',gsub('"','',gsub( "[[^]]*]",'',paste('"http://api.kolada.se/v2/data/kpi"',
-                                                            sub("[1]",'',l_kpi()), "municipality",
-                                                            sub("[1]",'',m_area()), '"year"',
-                                                            sub("[1]",'',l_year()),
-                                                            collapse = "/", sep = "/"))))})
+       ggplot(df(),
+              aes(x = values.kpi, y = value, color = values.title.x,
 
-    output$url <- renderTable({getData("","","", url = url())[,-1]})
+                  fill = values.title.x, label = value)) +
+
+         geom_col() +
+
+         ggtitle("Distribution of KPI") +
+
+         xlab("KPI") + ylab("Values") + labs(fill='KPI') +  labs(fill='KPI') + labs(color='KPI') +
+
+         theme_bw() + theme(legend.position = "right") +
+
+         theme(plot.title = element_text(hjust = 0.5))
 
 
-    #output$text <- url
+     })
+
+     output$bar3 <- renderPlot({
+
+
+       ggplot(df(),
+              aes(x = values.title.y, y = value, color = values.title.y,
+
+                  fill = values.title.y, label = value)) +
+         geom_col() +
+
+         ggtitle("Distribution of Municipality") +
+
+         xlab("Municipality") + ylab("Values") + labs(fill = "Municipality") + labs (color = "Municipality") +
+
+         theme_bw() + theme(legend.position = "right") +
+
+         theme(plot.title = element_text(hjust = 0.5))
+
+
+     })
+
+     output$bar4 <- renderPlot({
+
+
+       ggplot(data = df(), aes(x="", y=value, fill=gender))+
+
+         geom_bar(width = 1, stat = "identity") +
+
+         theme_bw()+
+
+         coord_polar("y", start=0)+ggtitle("Gender Distribution") +
+
+         theme(plot.title = element_text(hjust = 0.5))
+
+
+     })
+
+
+     output$table <- renderTable(df())
 
 
 
-}
 
-ui <- fluidPage(
 
-    h2("Kolada API : KPI And Municipality Data Visualization"),
+  }
 
-    hr(),
+  ui <- fluidPage(
 
-    sidebarPanel(
+      h2("Kolada API : KPI And Municipality Data Visualization"),
 
-        selectInput("m_names","Municipality Area",
-                    as.vector(municipality_data$values.title), multiple = TRUE)
-        ,
+      hr(),
 
-        selectInput("k_names","KPI", as.vector(kpi_data$values.title), multiple = TRUE)
+      sidebarPanel(
 
-        ,
+          selectInput("m_names","Municipality Area",
+                      as.vector(join_fact_dim$values.title.y), multiple = TRUE)
+          ,
 
-        selectInput('year', 'year',seq(2000,2050,1), multiple = TRUE)
+          selectInput("k_names","KPI", as.vector(join_fact_dim$values.title.x), multiple = TRUE)
 
-        ,
+          ,
 
-        radioButtons("radio","Select Landsting or Kommun",
-                     choices = unique(as.vector(municipality_data$values.type)),
-                     selected = 1)
-    ),
+          selectInput("year","Year", as.vector(join_fact_dim$values.period), multiple = TRUE)
 
-    column(4,tableOutput("url"))
+          ,
+
+          selectInput("gender","Gender", as.vector(join_fact_dim$gender), multiple = TRUE)
+
+          ,
+
+      ),
+
+
+      mainPanel(
+
+            plotOutput("bar2",height = 500),
+
+            fluidRow(
+
+                column(6,plotOutput("bar1",height = 250)),
+
+                column(6,plotOutput("bar3",height = 250) )),
+
+            plotOutput("bar4",height = 500)
+  )
+
+
 )
 
-
-shinyApp(ui, server)
+  shinyApp(ui, server)
