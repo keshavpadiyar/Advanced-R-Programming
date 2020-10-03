@@ -1,7 +1,7 @@
   library(shiny)
   library(webAPI)
   library(dplyr)
-
+  library(ggplot2)
 
   dim_municipality_data = getData("","","", url = "http://api.kolada.se/v2/municipality/0180,0001,0580,0581,1480,1280,2480,0380,1281")[,-1]
 
@@ -13,7 +13,7 @@
 
   join_fact_dim = merge(join_fact_dim_temp, dim_municipality_data, by.x = c("values.municipality"), by.y = c("values.id"))
 
-  server <- function (input, output, session){
+  server <- function (input, output){
 
      df <- reactive({ if (length(input$m_names) == 0 )
 
@@ -158,7 +158,6 @@
 
 
      })
-
 
 
   }
