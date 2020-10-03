@@ -31,7 +31,10 @@ getData() function in the package should be used to access API and fetch data. T
 ```{r}
 library(webAPI)
 
-final_data = getData(l_m = "0180,0581,0580",l_kpi = "N01951,N61714",l_year = "2018,2019,2020", url = "")[,-1]
+final_data = getData(l_m = "0180,0581,0580",
+                     l_kpi = "N01951,N61714",
+                     l_year = "2018,2019,2020",
+                     url = "")[,-1]
 
 head(final_data,10)
 ```
@@ -40,7 +43,10 @@ head(final_data,10)
 ```{r}
 library(webAPI)
 
-final_data = getData(l_m = "",l_kpi = "",l_year = "", url = "http://api.kolada.se/v2/municipality?all")[,-1]
+final_data = getData(l_m = "",
+                     l_kpi = "",
+                     l_year = "", 
+                     url = "http://api.kolada.se/v2/municipality?all")[,-1]
 
 head(final_data,10)
 ```
