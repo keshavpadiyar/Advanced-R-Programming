@@ -1,8 +1,7 @@
 library(shiny)
 
-library(webAPI)
-library(dplyr)
-library(ggplot2)
-
-
 runGitHub("koladaAPI", "rstudio")
+
+runUrl("https://github.com/rstudio/koladaAPI/archive/master.tar.gz")
+runUrl("https://github.com/rstudio/koladaAPI/archive/master.gz")
+
