@@ -78,6 +78,9 @@
                                                       &
                                                          (values.period %in% vl_y)
 
+                                                      &
+                                                        (gender %in% vl_g)
+
                                          ), values.title.y,
 
                                             values.title.x,
@@ -156,34 +159,13 @@
 
      })
 
-     output$bar4 <- renderPlot({
-
-
-       ggplot(data = df(), aes(x="", y=value, fill=gender))+
-
-         geom_bar(width = 1, stat = "identity") +
-
-         theme_bw()+
-
-         coord_polar("y", start=0)+ggtitle("Gender Distribution") +
-
-         theme(plot.title = element_text(hjust = 0.5))
-
-
-     })
-
-
-     output$table <- renderTable(df())
-
-
-
 
 
   }
 
   ui <- fluidPage(
 
-      h2("Kolada API : KPI And Municipality Data Visualization"),
+     titlePanel( h2("Kolada API : KPI And Municipality Data Visualization", align = "center")),
 
       hr(),
 
@@ -197,7 +179,7 @@
 
           ,
 
-          selectInput("year","Year", as.vector(join_fact_dim$values.period), multiple = TRUE)
+          selectInput("year","Year", sort(as.vector(join_fact_dim$values.period)), multiple = TRUE)
 
           ,
 
@@ -208,9 +190,11 @@
       ),
 
 
-      mainPanel(
+            mainPanel(
 
-            plotOutput("bar2",height = 500),
+            plotOutput("bar2",height = 400)
+
+            ),
 
             fluidRow(
 
@@ -218,8 +202,7 @@
 
                 column(6,plotOutput("bar3",height = 250) )),
 
-            plotOutput("bar4",height = 500)
-  )
+            plotOutput("bar4",height = 400),
 
 
 )

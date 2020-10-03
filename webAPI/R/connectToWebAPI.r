@@ -108,9 +108,9 @@ getAPI <- function(url){
 #'
 verifContent <- function(response){
 
-  vl_content <- content(response, "text", encoding = "UTF-8")
+  if (content(response)$count ==0) warning("No Content to Parse")
 
-  if (identical(vl_content, "")) warning("No Content to Parse")
+  vl_content <- content(response, "text", encoding = "UTF-8")
 
   fromJSON(vl_content, flatten = TRUE)
 }
