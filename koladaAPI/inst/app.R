@@ -1,17 +1,21 @@
   library(shiny)
-  library(webAPI)
+  library(SwedishKoladaAPI)
   library(dplyr)
   library(ggplot2)
 
-  dim_municipality_data = getData("","","", url = "http://api.kolada.se/v2/municipality/0180,0001,0580,0581,1480,1280,2480,0380,1281")[,-1]
+  dim_municipality_data = getKoladaAPIData(url = "http://api.kolada.se/v2/municipality/0180,0001,0580,0581,1480,1280,2480,0380,1281")
 
-  dim_kpi_data = getData("","","", url = "http://api.kolada.se/v2/kpi/N00002,N00005Y,N00011,N00014,N00019,N00022,N00024,N00026,N00042,N00053")[,-1]
+  dim_kpi_data = getKoladaAPIData(url = "http://api.kolada.se/v2/kpi/N00002,N00005Y,N00011,N00014,N00019,N00022,N00024,N00026,N00042,N00053")
 
-  fact_data = getData("","",url = "http://api.kolada.se/v2/data/kpi/N00002,N00005Y,N00011,N00014,N00019,N00022,N00024,N00026,N00042,N00053/municipality/0180,0001,0580,0581,1480,1280,2480,0380,1281/year/2010,2011,2012,2013,2014,2015,2016,2017,2018,2019")[,-1]
+  fact_data = getKoladaAPIData(l_kpi ="N00002,N00005Y,N00011,N00014,N00019,N00022,N00024,N00026,N00042,N00053",
+                                  l_m = "0180,0001,0580,0581,1480,1280,2480,0380,1281",
+                                   l_year = "2010,2011,2012,2013,2014,2015,2016,2017,2018,2019")
 
   join_fact_dim_temp = merge(fact_data,dim_kpi_data,by.x = c ("values.kpi"), by.y = c("values.id"), all = TRUE)
 
   join_fact_dim = merge(join_fact_dim_temp, dim_municipality_data, by.x = c("values.municipality"), by.y = c("values.id"))
+
+  join_fact_dim$gender = sapply(join_fact_dim$gender, switch, K = "Female", M = "Male", T = "Total")
 
   server <- function (input, output){
 
@@ -97,7 +101,7 @@
                                     )
                            }
                            )
-     
+
      output$bar1 <- renderPlot({
 
        ggplot(df(),
@@ -161,23 +165,23 @@
      })
 
     output$bar4 <- renderPlot({
-      
+
         if (nrow(df())==0){
-          
+
           return("No Values To Display")
-          
+
         }else{
-        
+
               ggplot(data = df(), aes(x="", y=value, fill=gender))+
-            
+
               geom_bar(width = 1, stat = "identity") + theme_bw()+
-            
+
               coord_polar("y", start=0)+ggtitle("Gender Distribution") +
-          
+
               theme(plot.title = element_text(hjust = 0.5))
-          
+
         }
-    
+
      })
   }
 
@@ -201,7 +205,7 @@
 
           ,
 
-          selectInput("gender","Gender", as.vector(join_fact_dim$gender), multiple = TRUE)
+          selectInput("gender","Gender", sort(as.vector(join_fact_dim$gender)), multiple = TRUE)
 
           ,
 
