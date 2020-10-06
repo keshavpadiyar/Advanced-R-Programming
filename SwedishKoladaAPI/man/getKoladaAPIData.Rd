@@ -7,20 +7,36 @@
 getKoladaAPIData(l_kpi = "", l_m = "", l_year = "", url = "")
 }
 \arguments{
-\item{l_kpi}{: Required KPI Code
+\item{l_kpi}{: KPI code input to select specific KPIs from the API}
+
+\item{l_m}{: Municipality code input to get specific Municipality form the API}
+
+\item{l_year}{: Year input for which the data to be observed}
+
+\item{url}{: If data to be fetched directly from a specific URL}
+}
+\value{
+The function returns a data.frame having the requested data from the API
+}
+\description{
+User function to get the data from API
+}
+\details{
+{This function to be called from the package to access the API, parse and download the data. Refer
+
+\url{https://www.kolada.se/} for more details on Kolada API.
 
  Sameple KPIs codes and its description
 
-N00002: Personalkostnader som andel av verksamhetens kostnader, andel \(%\)",
+N00002: Personalkostnader som andel av verksamhetens kostnader, andel (%)",
 
 N00011: Inkomstutjämning, bidrag/avgift, kr/inv. 1 nov fg år",
 
- For KPIs refer
- \url{http://api.kolada.se/v2/kpi?all}}
 
-\item{l_m}{: Required Municipality Code
+ For more KPIs refer:
+ \url{http://api.kolada.se/v2/kpi?all}
 
- Sample Municipality Codes and values
+Sample Municipality Codes and values
 
  1480: Goteborg
 
@@ -30,21 +46,10 @@ N00011: Inkomstutjämning, bidrag/avgift, kr/inv. 1 nov fg år",
 
  1280: Malmo
 
- For more municipality refer
- \url{http://api.kolada.se/v2/municipality?all}}
 
-\item{l_year}{: Required Year}
-
-\item{url}{: If data to be fetched from a specific URL}
-}
-\value{
-: data.frame having the requested data from the API
-}
-\description{
-User function to get the data from API
-}
-\details{
-: This function to be called from the package to access the API, parse and download the data.
+ For more municipalities refer:
+ \url{http://api.kolada.se/v2/municipality?all}
+ }
 }
 \examples{
 

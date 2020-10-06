@@ -13,32 +13,35 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-The SwedishKoladaAPI package is developed to access the data from Kolada Web API. SwedishKoladaAPI connects to the given URL, pulls the data and parses the data to data.frame.
+The SwedishKoladaAPI package is developed to access the data from Kolada Web API. SwedishKoladaAPI connects to the given URL, pulls the data and parses the data to data.frame. For more information on Kolada API, refer "https://www.kolada.se/"
 
 getKoladaAPIData() function in the package should be used to access API and fetch data. The function takes below inputs and returns a data.frame.
 
-*l_kpi* : Required KPI Code
+**l_kpi** : Required KPI Code
  
 ```{r echo=FALSE, results='hold'}
-df = data.frame(KPI_Code = c("N00002","N00011","N00014","N00019","N00022","N00024","N00026","N00042","N00053"),
-KPI_Name = c("Personnel costs as a proportion of operating costs, share (%)","Income equalization, allowance / fee, SEK / inv. 1 Nov fg year","Adjustment contribution / fee, SEK / inv (2005-)","Structural contribution, SEK / inv (2005-)","Net cost expenditure: preschool and school child care, SEK / inv 1 Nov fg year","Net cost expenditure: Elderly care, SEK / inv 1 Nov fg year","Net cost expenditure: Upper secondary school, SEK / inv 1 Nov fg year","Guaranteed tax power, SEK / inv 1 Nov fg year","Monthly paid staff, total municipal employees, number") )
+df = data.frame(KPI_Code = c("N00002","N00011","N00014"),
+KPI_Name = c("Personnel costs as a proportion of operating costs, share (%)","Income equalization, allowance / fee, SEK / inv. 1 Nov fg year","Adjustment contribution / fee, SEK / inv (2005-)") )
 
-knitr::kable(df, caption = "KPIs")
+knitr::kable(df, caption = "Sample KPIs")
 ```
+For More KPIs refer "http://api.kolada.se/v2/kpi?all"
 
-*l_m* : Required Municipality Code
+**l_m** : Required Municipality Code
 ```{r echo=FALSE, results='hold'}
 df = data.frame(Municipality_Code = c("1480","0580","1281","1280","0581","0180","0001","2480","0380"), Municipality_Name = c("Goteborg","Linkoping","Lund","Malmo","Norrkoping","Stockholm","Stockholms lans landsting","Umea","Uppsala") )
 
-knitr::kable(df, caption = "Municpalities")
+knitr::kable(df, caption = "Sample Municpalities")
 ```
- *l_year* : Required Year
+For More Municipalities and their codes refer "http://api.kolada.se/v2/municipality?all"
 
- *url* : If data to be fetched from a specific URL
+ **l_year** : Year for which the data to be observed
+
+ **url** : If data to be fetched from a specific URL
  
  Also, the function has 2 features:
  
- 1. Given only the first 3 parameter value, the function will construct URL of KOLADA API and fetches the data.
+ 1. Given only the first 3 parameter value, the function will fetch the data for given kpi, municipality and years
  
 ```{r}
 library(SwedishKoladaAPI)
@@ -46,17 +49,17 @@ library(SwedishKoladaAPI)
 final_data = getKoladaAPIData(l_m = "0180,0581,0580",
                      l_kpi = "N01951,N61714",
                      l_year = "2018,2019,2020"
-                     )[,-1]
+                     )
 
 head(final_data,10)
 ```
- 2. User can also give required URL to get the data. If the URL is given then remaining input parameter values will be ignored.
+ 2. User can also give required URL to get the data.
  
 ```{r}
 library(SwedishKoladaAPI)
 
 final_data = getKoladaAPIData(
-                     url = "http://api.kolada.se/v2/municipality?all")[,-1]
+                     url = "http://api.kolada.se/v2/municipality?all")
 
 head(final_data,10)
 ```

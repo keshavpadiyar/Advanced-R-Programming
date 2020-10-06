@@ -140,20 +140,33 @@ flattenJSON <- function(df, df_data){
 
 #' User function to get the data from API
 #'
-#' @param l_kpi : Required KPI Code
+#' @param l_kpi : KPI code input to select specific KPIs from the API
+#'
+#' @param l_m : Municipality code input to get specific Municipality form the API
+#'
+#' @param l_year : Year input for which the data to be observed
+#'
+#' @param url : If data to be fetched directly from a specific URL
+#'
+#' @return  The function returns a data.frame having the requested data from the API
+#'
+#' @export
+#'
+#' @details {This function to be called from the package to access the API, parse and download the data. Refer
+#'
+#' \url{https://www.kolada.se/} for more details on Kolada API.
 #'
 #'  Sameple KPIs codes and its description
 #'
-#'	N00002: Personalkostnader som andel av verksamhetens kostnader, andel \(%\)",
+#'	N00002: Personalkostnader som andel av verksamhetens kostnader, andel (%)",
 #'
 #'	N00011: Inkomstutjämning, bidrag/avgift, kr/inv. 1 nov fg år",
 #'
-#'  For KPIs refer
+#'
+#'  For more KPIs refer:
 #'  \url{http://api.kolada.se/v2/kpi?all}
 #'
-#' @param l_m : Required Municipality Code
-#'
-#'  Sample Municipality Codes and values
+#' Sample Municipality Codes and values
 #'
 #'  1480: Goteborg
 #'
@@ -163,18 +176,10 @@ flattenJSON <- function(df, df_data){
 #'
 #'  1280: Malmo
 #'
-#'  For more municipality refer
+#'
+#'  For more municipalities refer:
 #'  \url{http://api.kolada.se/v2/municipality?all}
-#'
-#' @param l_year : Required Year
-#'
-#' @param url : If data to be fetched from a specific URL
-#'
-#' @return : data.frame having the requested data from the API
-#'
-#' @export
-#'
-#' @details : This function to be called from the package to access the API, parse and download the data.
+#'  }
 #'
 #' @examples
 #'

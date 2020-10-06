@@ -3,9 +3,9 @@
   library(dplyr)
   library(ggplot2)
 
-  dim_municipality_data = getKoladaAPIData(url = "http://api.kolada.se/v2/municipality/0180,0001,0580,0581,1480,1280,2480,0380,1281")
+  dim_municipality_data = getKoladaAPIData(url = "http://api.kolada.se/v2/municipality/")
 
-  dim_kpi_data = getKoladaAPIData(url = "http://api.kolada.se/v2/kpi/N00002,N00005Y,N00011,N00014,N00019,N00022,N00024,N00026,N00042,N00053")
+  dim_kpi_data = getKoladaAPIData(url = "http://api.kolada.se/v2/kpi/")
 
   fact_data = getKoladaAPIData(l_kpi ="N00002,N00005Y,N00011,N00014,N00019,N00022,N00024,N00026,N00042,N00053",
                                   l_m = "0180,0001,0580,0581,1480,1280,2480,0380,1281",
