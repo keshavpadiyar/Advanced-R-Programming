@@ -79,6 +79,8 @@ getAPI <- function(url){
 
   out <- GET(url = url)
 
+  stopifnot(out$status_code==200)
+
   print("GET URL STATUS: Success")
 
   return(out)
