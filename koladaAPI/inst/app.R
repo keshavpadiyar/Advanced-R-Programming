@@ -3,19 +3,19 @@
   library(dplyr)
   library(ggplot2)
 
-  dim_municipality_data = getKoladaAPIData(url = "http://api.kolada.se/v2/municipality/")
+  dim_municipality_data = getKoladaAPIData(url = "http://api.kolada.se/v2/municipality?all")
 
-  dim_kpi_data = getKoladaAPIData(url = "http://api.kolada.se/v2/kpi/")
+  dim_kpi_data = getKoladaAPIData(url = "http://api.kolada.se/v2/kpi?all")
 
   fact_data = getKoladaAPIData(l_kpi ="N00002,N00005Y,N00011,N00014,N00019,N00022,N00024,N00026,N00042,N00053",
                                   l_m = "0180,0001,0580,0581,1480,1280,2480,0380,1281",
                                    l_year = "2010,2011,2012,2013,2014,2015,2016,2017,2018,2019")
 
-  join_fact_dim_temp = merge(fact_data,dim_kpi_data,by.x = c ("values.kpi"), by.y = c("values.id"), all = TRUE)
+  join_fact_dim_temp = merge(fact_data,dim_kpi_data,by.x = c ("KPI_ID"), by.y = c("values.id"), all = TRUE)
 
-  join_fact_dim = merge(join_fact_dim_temp, dim_municipality_data, by.x = c("values.municipality"), by.y = c("values.id"))
+  join_fact_dim = merge(join_fact_dim_temp, dim_municipality_data, by.x = c("Municipality_ID"), by.y = c("values.id"))
 
-  join_fact_dim$gender = sapply(join_fact_dim$gender, switch, K = "Female", M = "Male", T = "Total")
+  #join_fact_dim$Gender = sapply(join_fact_dim$Gender, switch, K = "Female", M = "Male", T = "Total")
 
   server <- function (input, output){
 
@@ -51,7 +51,7 @@
 
                                           {
 
-                                               vl_y = unique(join_fact_dim$values.period)
+                                               vl_y = unique(join_fact_dim$Year)
 
                                           }else
 
@@ -59,16 +59,16 @@
                                                   vl_y = input$year
 
                                             }
-                             if (length(input$gender) == 0)
+                             if (length(input$Gender) == 0)
 
                                            {
 
-                                                vl_g = unique(join_fact_dim$gender)
+                                                vl_g = unique(join_fact_dim$Gender)
 
                                            }else
 
                                            {
-                                                vl_g = input$gender
+                                                vl_g = input$Gender
 
                                            }
 
@@ -80,20 +80,20 @@
                                                         (values.title.x %in% vl_k)
 
                                                       &
-                                                         (values.period %in% vl_y)
+                                                         (Year %in% vl_y)
 
                                                       &
-                                                        (gender %in% vl_g)
+                                                        (Gender %in% vl_g)
 
                                          ), values.title.y,
 
                                             values.title.x,
 
-                                            values.kpi,
+                                            KPI_ID,
 
-                                            values.period,
+                                            Year,
 
-                                            gender,
+                                            Gender,
 
                                             value
                                          )
@@ -105,9 +105,9 @@
      output$bar1 <- renderPlot({
 
        ggplot(df(),
-              aes(x = format(values.period,0), y = value, color = format(values.period,0),
+              aes(x = format(Year,0), y = value, color = format(Year,0),
 
-                        fill = format(values.period,0), label = value)) +
+                        fill = format(Year,0), label = value)) +
          geom_col() +
 
          ggtitle("Yearly Distributionm") +
@@ -127,7 +127,7 @@
 
 
        ggplot(df(),
-              aes(x = values.kpi, y = value, color = values.title.x,
+              aes(x = KPI_ID, y = value, color = values.title.x,
 
                   fill = values.title.x, label = value)) +
 
@@ -172,7 +172,7 @@
 
         }else{
 
-              ggplot(data = df(), aes(x="", y=value, fill=gender))+
+              ggplot(data = df(), aes(x="", y=value, fill=Gender))+
 
               geom_bar(width = 1, stat = "identity") + theme_bw()+
 
@@ -201,11 +201,11 @@
 
           ,
 
-          selectInput("year","Year", sort(as.vector(join_fact_dim$values.period)), multiple = TRUE)
+          selectInput("year","Year", sort(as.vector(join_fact_dim$Year)), multiple = TRUE)
 
           ,
 
-          selectInput("gender","Gender", sort(as.vector(join_fact_dim$gender)), multiple = TRUE)
+          selectInput("Gender","Gender", sort(as.vector(join_fact_dim$Gender)), multiple = TRUE)
 
           ,
 

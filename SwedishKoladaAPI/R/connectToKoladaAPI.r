@@ -198,16 +198,26 @@ flattenJSON <- function(df, df_data){
 #'
 getKoladaAPIData <- function (l_kpi="",l_m="",l_year="", url=""){
 
-  url = urlConstructor(l_kpi,l_m, l_year, url)
+  vl_url = urlConstructor(l_kpi,l_m, l_year, url)
 
-  response = getAPI(url)
+  response = getAPI(vl_url)
 
   vl_content  = as.data.frame(verifContent(response))
 
   df_data = vl_content[FALSE,]
 
-  df_data = flattenJSON(vl_content,df_data)
+  df_data = flattenJSON(vl_content,df_data)[-1]
 
-  return(df_data[-1])
+  if (identical(url,"")){
+
+    colnames(df_data) <- c("KPI_ID", "Municipality_ID", "Year", "Count", "Gender", "Status", "value")
+
+    df_data$Gender = sapply(df_data$Gender, switch, K = "Female", M = "Male", T = "Total")
+
+    return(df_data)
+
+  }
+
+  return(df_data)
 
 }
