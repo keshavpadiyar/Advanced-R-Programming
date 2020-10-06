@@ -17,7 +17,7 @@ The SwedishKoladaAPI package is developed to access the data from Kolada Web API
 
 getKoladaAPIData() function in the package should be used to access API and fetch data. The function takes below inputs and returns a data.frame.
 
-**l_kpi** : Required KPI Code
+**l_kpi** : KPI code input ("code_kpi1, code_kpi1,..")to select specific KPIs from the API.
  
 ```{r echo=FALSE, results='hold'}
 df = data.frame(KPI_Code = c("N00002","N00011","N00014"),
@@ -27,7 +27,7 @@ knitr::kable(df, caption = "Sample KPIs")
 ```
 For More KPIs refer "http://api.kolada.se/v2/kpi?all"
 
-**l_m** : Required Municipality Code
+**l_m** : Municipality code input ("code_municipality1, code_municipality2,..") to get specific Municipality form the API.
 ```{r echo=FALSE, results='hold'}
 df = data.frame(Municipality_Code = c("1480","0580","1281","1280","0581","0180","0001","2480","0380"), Municipality_Name = c("Goteborg","Linkoping","Lund","Malmo","Norrkoping","Stockholm","Stockholms lans landsting","Umea","Uppsala") )
 
@@ -35,9 +35,9 @@ knitr::kable(df, caption = "Sample Municpalities")
 ```
 For More Municipalities and their codes refer "http://api.kolada.se/v2/municipality?all"
 
- **l_year** : Year for which the data to be observed
+ **l_year** : Year input ("year1, year2, ..."") for which the data to be observed
 
- **url** : If data to be fetched from a specific URL
+ **url** : f data to be fetched directly from a specific URL
  
  Also, the function has 2 features:
  

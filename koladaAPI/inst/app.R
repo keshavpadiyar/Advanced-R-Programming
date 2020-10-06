@@ -11,9 +11,9 @@
                                   l_m = "0180,0001,0580,0581,1480,1280,2480,0380,1281",
                                    l_year = "2010,2011,2012,2013,2014,2015,2016,2017,2018,2019")
 
-  join_fact_dim_temp = merge(fact_data,dim_kpi_data,by.x = c ("KPI_ID"), by.y = c("values.id"), all = TRUE)
+  join_fact_dim_temp = merge(fact_data,dim_kpi_data,by.x = c ("KPI_ID"), by.y = c("id"), all = TRUE)
 
-  join_fact_dim = merge(join_fact_dim_temp, dim_municipality_data, by.x = c("Municipality_ID"), by.y = c("values.id"))
+  join_fact_dim = merge(join_fact_dim_temp, dim_municipality_data, by.x = c("Municipality_ID"), by.y = c("id"))
 
   #join_fact_dim$Gender = sapply(join_fact_dim$Gender, switch, K = "Female", M = "Male", T = "Total")
 
@@ -23,7 +23,7 @@
 
                                       {
 
-                                             vl_m = unique(join_fact_dim$values.title.y)
+                                             vl_m = unique(join_fact_dim$title.y)
 
 
                                       }else
@@ -37,7 +37,7 @@
 
                                         {
 
-                                              vl_k = unique(join_fact_dim$values.title.x)
+                                              vl_k = unique(join_fact_dim$title.x)
 
                                         }else
 
@@ -74,10 +74,10 @@
 
                            return(
 
-                                      distinct(select(filter(join_fact_dim, (values.title.y %in% vl_m)
+                                      distinct(select(filter(join_fact_dim, (title.y %in% vl_m)
 
                                                       &
-                                                        (values.title.x %in% vl_k)
+                                                        (title.x %in% vl_k)
 
                                                       &
                                                          (Year %in% vl_y)
@@ -85,9 +85,9 @@
                                                       &
                                                         (Gender %in% vl_g)
 
-                                         ), values.title.y,
+                                         ), title.y,
 
-                                            values.title.x,
+                                            title.x,
 
                                             KPI_ID,
 
@@ -127,9 +127,9 @@
 
 
        ggplot(df(),
-              aes(x = KPI_ID, y = value, color = values.title.x,
+              aes(x = KPI_ID, y = value, color = title.x,
 
-                  fill = values.title.x, label = value)) +
+                  fill = title.x, label = value)) +
 
          geom_col() +
 
@@ -148,9 +148,9 @@
 
 
        ggplot(df(),
-              aes(x = values.title.y, y = value, color = values.title.y,
+              aes(x = title.y, y = value, color = title.y,
 
-                  fill = values.title.y, label = value)) +
+                  fill = title.y, label = value)) +
          geom_col() +
 
          ggtitle("Distribution of Municipality") +
@@ -194,10 +194,10 @@
       sidebarPanel(
 
           selectInput("m_names","Municipality Area",
-                      as.vector(join_fact_dim$values.title.y), multiple = TRUE)
+                      as.vector(join_fact_dim$title.y), multiple = TRUE)
           ,
 
-          selectInput("k_names","KPI", as.vector(join_fact_dim$values.title.x), multiple = TRUE)
+          selectInput("k_names","KPI", as.vector(join_fact_dim$title.x), multiple = TRUE)
 
           ,
 

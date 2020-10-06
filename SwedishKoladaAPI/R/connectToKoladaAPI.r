@@ -140,11 +140,11 @@ flattenJSON <- function(df, df_data){
 
 #' User function to get the data from API
 #'
-#' @param l_kpi : KPI code input to select specific KPIs from the API
+#' @param l_kpi : KPI code input ("code_kpi1, code_kpi1,..")to select specific KPIs from the API.
 #'
-#' @param l_m : Municipality code input to get specific Municipality form the API
+#' @param l_m : Municipality code input ("code_municipality1, code_municipality2,..") to get specific Municipality form the API
 #'
-#' @param l_year : Year input for which the data to be observed
+#' @param l_year : Year input ("year1, year2, ..."") for which the data to be observed
 #'
 #' @param url : If data to be fetched directly from a specific URL
 #'
@@ -191,8 +191,8 @@ flattenJSON <- function(df, df_data){
 #' for more KPI codes
 #' dplyr::select(getKoladaAPIData(url = "http://api.kolada.se/v2/kpi?all"),values.id, values.title)
 #'
-#'	for more Municipality codes
-#'  dplyr::select(getKoladaAPIData(url = "http://api.kolada.se/v2/municipality?all"),values.id, values.title)
+#' for more Municipality codes
+#' dplyr::select(getKoladaAPIData(url = "http://api.kolada.se/v2/municipality?all"),values.id, values.title)
 #'
 #'  }
 #'
@@ -217,7 +217,7 @@ getKoladaAPIData <- function (l_kpi="",l_m="",l_year="", url=""){
     return(df_data)
 
   }
-
+  colnames(df_data)=as.vector(sapply(dimnames(df_data)[2], function(q){sub("values.","",q)} ))
   return(df_data)
 
 }

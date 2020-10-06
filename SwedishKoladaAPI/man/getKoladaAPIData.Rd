@@ -7,11 +7,11 @@
 getKoladaAPIData(l_kpi = "", l_m = "", l_year = "", url = "")
 }
 \arguments{
-\item{l_kpi}{: KPI code input to select specific KPIs from the API}
+\item{l_kpi}{: KPI code input ("code_kpi1, code_kpi1,..")to select specific KPIs from the API.}
 
-\item{l_m}{: Municipality code input to get specific Municipality form the API}
+\item{l_m}{: Municipality code input ("code_municipality1, code_municipality2,..") to get specific Municipality form the API}
 
-\item{l_year}{: Year input for which the data to be observed}
+\item{l_year}{: Year input ("year1, year2, ..."") for which the data to be observed}
 
 \item{url}{: If data to be fetched directly from a specific URL}
 }
@@ -61,7 +61,7 @@ for more KPI codes
 dplyr::select(getKoladaAPIData(url = "http://api.kolada.se/v2/kpi?all"),values.id, values.title)
 
 for more Municipality codes
- dplyr::select(getKoladaAPIData(url = "http://api.kolada.se/v2/municipality?all"),values.id, values.title)
+dplyr::select(getKoladaAPIData(url = "http://api.kolada.se/v2/municipality?all"),values.id, values.title)
 
  }
 
