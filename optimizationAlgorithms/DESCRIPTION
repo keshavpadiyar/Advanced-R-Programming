@@ -1,18 +1,18 @@
-Package: SwedishKoladaAPI
+Package: optimizationAlgorithms
 Type: Package
-Title: Package to access data from Koalda API
+Title: Implementation of knapsack algorithms - Dynamic, Brute Force and Greedy methods
 Version: 1.0
-Date: 2020-09-29
+Date: 2020-10-08
 Author: c(person("Keshav", "Padiyar", role = c("aut", "cre"),email = "kespa139@student.liu.se"),
           person("Siddharth", "Saminathan", role = c("aut", "cre"),email = "sidsa666@student.liu.se"))
 Maintainer: Keshav Padiyar Manuru <kespa139@student.liu.se>
-Description: This package contains the functions to fetch the data from Kolada API.
+Description: This package contains the implementation of Dynamic, Brute foirce and greedy knapsack algorithms
 License: CC0
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
-Imports: httr, jsonlite 
+Imports: parallel, utils
 Suggests: 
     testthat,
     knitr,
