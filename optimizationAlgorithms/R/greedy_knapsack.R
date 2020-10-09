@@ -17,11 +17,11 @@
 #' @examples
 #'
 #' \dontrun{
-#'  brute_force_knapsack(x = knapsack_objects[1:16,], W = 3500)
+#'  greedy_knapsack(x = knapsack_objects[1:800,], W = 3500)
 #'  $value
-#'  [1] 24644
-#' $element
-#'  [1]  4  7  9 13 15
+#'  [1] 190944
+#'  $elements
+#'  [1] 256 530 701 559  89  75 759 626 219 244  63 672 455 764 329  77 705 320 110 509 762 729 691 283 553 620 341 187  83 707 511
 #'}
 
 greedy_knapsack <- function (x, W){

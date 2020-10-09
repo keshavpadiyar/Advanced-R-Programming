@@ -27,10 +27,10 @@ This algorithm can be used to solve the knapsack problem - Given a set of items,
 \examples{
 
 \dontrun{
- brute_force_knapsack(x = knapsack_objects[1:16,], W = 3500)
- $value
- [1] 24644
-$element
- [1]  4  7  9 13 15
+knapsack_dynamic(x = knapsack_objects[1:800,], W = 3500)
+$value
+[1] 196220
+$elements
+[1] 110 187 219 244 256 283 320 329 341 455 509 511 530 553 559 620 626  63 672 691 701 705 707 729  75 759 762 764  77 788  89
 }
 }
