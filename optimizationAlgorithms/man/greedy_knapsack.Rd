@@ -2,7 +2,7 @@
 % Please edit documentation in R/greedy_knapsack.R
 \name{greedy_knapsack}
 \alias{greedy_knapsack}
-\title{Implementation of Brute-force method to solve knapsack problem}
+\title{Implementation of Greedy Method method to solve knapsack problem}
 \usage{
 greedy_knapsack(x, W)
 }
@@ -15,7 +15,7 @@ greedy_knapsack(x, W)
 The function returns a list having a> maximum values b> elements that can be filled into the knapsack
 }
 \description{
-Implementation of Brute-force method to solve knapsack problem
+Implementation of Greedy Method method to solve knapsack problem
 }
 \details{
 This algorithm can be used to solve the knapsack problem - Given a set of items,

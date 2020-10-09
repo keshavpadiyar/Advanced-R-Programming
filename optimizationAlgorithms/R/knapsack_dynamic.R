@@ -1,3 +1,28 @@
+#' Implementation of Dynamic Method method to solve knapsack problem
+#'
+#' @param x : Input Data.Frame having Columns v (values) and their w (weights)
+#' @param W : Input Numeric - maximum capacity of the knapsack
+#'
+#' @return The function returns a list having a> maximum values b> elements that can be filled into the knapsack
+#' @export
+#'
+#' @details This algorithm can be used to solve the knapsack problem - Given a set of items,
+#'          each with a weight and a value, determine the number of each item to include in a collection so that
+#'          total weight is less than or equal to a given limit and the total value is as large as possible.
+#'          The basic idea is to use a matrix to store the values of the elements and then select the max value.
+#' \url{https://en.wikipedia.org/wiki/Knapsack_problem#Dynamic_programming_in-advance_algorithm}
+#'
+#' @examples
+#'
+#' \dontrun{
+#'  brute_force_knapsack(x = knapsack_objects[1:16,], W = 3500)
+#'  $value
+#'  [1] 24644
+#' $element
+#'  [1]  4  7  9 13 15
+#'}
+
+
 knapsack_dynamic<-function(x,W){
 
   #validation
@@ -15,7 +40,7 @@ knapsack_dynamic<-function(x,W){
     x<-x[-1, ]
     x<-x[order(x$w), ]
   }
-  
+
 
 
   set_matrix<-matrix(0,nrow=nrow(x)+1, ncol=W+1)

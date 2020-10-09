@@ -1,4 +1,4 @@
-#' Implementation of Brute-force method to solve knapsack problem
+#' Implementation of Greedy Method method to solve knapsack problem
 #'
 #' @param x : Input Data.Frame having Columns v (values) and their w (weights)
 #' @param W : Input Numeric - maximum capacity of the knapsack
