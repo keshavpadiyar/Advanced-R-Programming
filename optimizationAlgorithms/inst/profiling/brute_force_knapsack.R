@@ -1,36 +1,17 @@
-#' Implementation of Brute-force method to solve knapsack problem
-#'
-#' @param x : Input Data.Frame having Columns v (values) and their w (weights)
-#' @param W : Input Numeric - maximum capacity of the knapsack
-#' @param parallel : Input Flag, by default the value is FALSE.
-#'                   FALSE: The algorithm follows normal execution routine.
-#'                   TRUE: Parallelism is activated and the execution routine follows execution on multiple workers
-#'
-#' @return The function returns a list having a> maximum values b> elements that can be filled into the knapsack
-#' @export
-#'
-#' @details This algorithm can be used to solve the knapsack problem - Given a set of items,
-#'          each with a weight and a value, determine the number of each item to include in a collection so that
-#'          total weight is less than or equal to a given limit and the total value is as large as possible. This algorithm
-#'          enumerates all n-combinations of n objects. to find the max value and all the elements that can be fitted into the
-#'          knapsack. But When number of  item (n) is increased, execution time starts to increase rapidly. For more details
-#'          refer
-#' \url{https://en.wikipedia.org/wiki/Knapsack_problem}
-#'
-#'
-#' @examples
-#'
-#' \dontrun{
-#'  brute_force_knapsack(x = knapsack_objects[1:16,], W = 3500)
-#'  $value
-#'  [1] 24644
-#' $element
-#'  [1]  4  7  9 13 15
-#'  }
-#'
+profvis::profvis({
 
 
-brute_force_knapsack <- function (x, W, parallel = FALSE){
+  set.seed(42)
+  n <- 2000
+  knapsack_objects <-
+    data.frame( w=sample(1:4000, size = n, replace = TRUE),
+                v=runif(n = n, 0, 10000) )
+
+  x <- knapsack_objects[1:20,]
+
+  W <- 3500
+
+  parallel = TRUE
 
   stopifnot(class(x)=="data.frame"   &&
               class(W)=="numeric"    &&
@@ -87,7 +68,7 @@ brute_force_knapsack <- function (x, W, parallel = FALSE){
 
         }# End for (i in 1: (n_combinations-1))
 
-       return (list(value = round(maxValue), elements = finalElements))
+       print (list(value = round(maxValue), elements = finalElements))
 
   }# end if parallel == False
 
@@ -100,10 +81,10 @@ brute_force_knapsack <- function (x, W, parallel = FALSE){
     cluster <- parallel::makePSOCKcluster(cores)
 
     #  Export the data.frame variable x from current environment to all worker
-    parallel::clusterExport(cluster, c("x", "W"), envir = environment())
+    parallel::clusterExport(cluster, c("x"), envir = environment())
 
     #  Get possible combinations of elements
-    #elements <- unlist( parallel::parLapply(cluster, 1:nrow(x), fun = function(ele_comb){utils::combn(rownames(x), ele_comb, paste, collapse = ";")}))
+    elements <- unlist( parallel::parLapply(cluster, 1:nrow(x), fun = function(ele_comb){utils::combn(rownames(x), ele_comb, paste, collapse = ";")}))
 
     #  Get all possible weights combinations
     weight <- unlist( parallel::parLapply(cluster, 1:nrow(x), fun = function(ele_comb){utils::combn(x$w, ele_comb, sum)}))
@@ -112,9 +93,8 @@ brute_force_knapsack <- function (x, W, parallel = FALSE){
     #  Get possible values combinations
     values <- unlist(parallel:: parLapply(cluster, 1:nrow(x), fun = function(ele_comb){utils::combn(x$v, ele_comb, sum)}))
 
-
     #  Terminate the workers by stopping the cluster
-    parallel::stopCluster(cluster)
+      parallel::stopCluster(cluster)
 
     #  Get the weights that were less than the knapsack capacity
     posWeights <- which(weight <W)
@@ -125,31 +105,11 @@ brute_force_knapsack <- function (x, W, parallel = FALSE){
     #  Identify the position of the elements which bags maximum values
     posMaxValue <- min(which (round(values) == maxValue))
 
-    #  Get required combinations of elements
-
-    l_elements = c()
-
-    i = 1
-
-    while (i<=nrow(x)){
-
-      if (length(l_elements)<= posMaxValue){
-
-        l_elements = c(l_elements,as.vector(utils::combn(rownames(x), i, paste, collapse = ";")))
-
-      }else{
-
-        break
-      }
-
-      i = i + 1
-    }
-
     #  Separate the elements from their combinations
-    posElements <- unique(as.numeric(unlist(strsplit(l_elements[posMaxValue],";"))))
+    posElements <- unique(as.numeric(unlist(strsplit(elements[posMaxValue],";"))))
 
-    return(list(value = maxValue, elements = posElements))
+    print(list(value = maxValue, elements = posElements))
 
   }
-
 }
+)

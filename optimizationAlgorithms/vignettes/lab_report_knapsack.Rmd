@@ -1,16 +1,13 @@
 ---
-title: "optimization Algorithms"
-author: "Keshav Padiyar M, Siddahrth Saminathan"
-date: "`r Sys.Date()`"
+title: "lab_report_knapsack"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{lab_report_knapsack Title}
+  %\VignetteIndexEntry{lab_report_knapsack}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r , include = FALSE}
-
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -62,7 +59,7 @@ The time taken to run n=16 samples is :
 system.time(brute_force_knapsack(x = knapsack_objects[1:16,], W = 3500, parallel = FALSE))
 ```
 
-The time taken to run n=16 samples is :
+The time taken to run n=20 samples is :
 ```{r}
 # system.time(brute_force_knapsack(x = knapsack_objects[1:20,], W = 3500, parallel = FALSE))
 #>    user  system elapsed 
@@ -71,13 +68,13 @@ The time taken to run n=16 samples is :
 As you can see there is a significant increase in execution time as n increase
 
 ### ii. Process with parallelism enabled
-In this approach, we utilize multiple cores (processors) to run  tasks. i.e usually any given task will run on single core, but R gives flexibility to utilize the full potential of all the cores by distributing the tasks into multiple cores.
+In this approach, we utilize multiple cores (processors) to run  tasks. i.e usually any given task will run sequentially, but R gives flexibility to utilize the full potential of all the cores by distributing the tasks parallelly.
 
-Refer the following CPU utilization image, observe the uniform rise and falls in the graph, this shows that the tasks has been distributed on to the different cores available.
+Refer the following CPU utilization image, there are 3 Rscript.exe process which are spun from the single script. This is because in the script there are 3 tasks that will run parallel independent of each other.
 
- ![CPU Utilization when paralellism is enabled for n = 20](parallelismEnabled.PNG)
+![CPU Utilization when paralellism is enabled for n = 20](parallelismEnabled.PNG)
  
-In brute force method we are distributing the $2^n$ combinations to happen in multiple cores. This approach yields good results as the n value increases.
+In brute force method we are distributing the $2^n$ combinations to happen in multiple cores. This approach yields good results as the n value increases. But beyond n = 25, the program lags as the number of combinations formed will also effect the memory limit of an array.
 
 The time taken to run n=16 samples when Parallelism is enabled :
 ```{r}
@@ -88,15 +85,8 @@ The time taken to run n=20 samples when Parallelism is enabled :
 ```{r}
 # system.time(brute_force_knapsack(x = knapsack_objects[1:20,], W = 3500, parallel = TRUE))
 #>    user  system elapsed 
-#>    4.03    1.86   25.67
+#>    0.33    0.20   3.11
 ```
-
-### Profiler
-Using profvis profiler, it was identified that by default the *parallel::makeCluster(core)* takes more time (620 ms) to spin the workers when compared to *parallel::makePSOCKCluster(core)* (450 ms). Refer below images
-
- ![Time taken to spin workers with :*parallel::makeCluster(core)*](makeCluster.PNG)
-
- ![Time taken to spin workers with :*parallel::makePSOCKCluster(core)*](makePSOCKCluster.PNG)
 
 ## 2.Dynamic Programming
 
@@ -109,8 +99,6 @@ The time taken to yield result for n=500 samples is :
 
 ```{r}
 system.time(knapsack_dynamic(x = knapsack_objects[1:500,], W = 3500))
-
-
 ```
 
 It clearly shows how fast this approach is compared to Brute force. Note that we calculated the result for 500 observations compared to only 16 in the brute force approach.
@@ -127,4 +115,30 @@ system.time(greedy_knapsack(x = knapsack_objects[1:800,], W = 3500))
 system.time(greedy_knapsack(x = knapsack_objects[1:1000000,], W = 3500))
 ``` 
 
-This method  proves to be the fastest among others while giving only 50% accuarate maximum values.This method is versatile in calculating approximate values for large samples of data. 
+This method  proves to be the fastest among others while giving only 50% accurate maximum values.This method is versatile in calculating approximate values for large samples of data.
+
+# Profiling
+## Brute Forece Method:
+Using profvis profiler, it was identified that by default the *parallel::makeCluster(core)* takes more time (620 ms) to spin the workers when compared to *parallel::makePSOCKCluster(core)* (450 ms). Refer below images
+
+ ![Time taken to spin workers with :*parallel::makeCluster(core)*](makeCluster.PNG)
+
+ ![Time taken to spin workers with :*parallel::makePSOCKCluster(core)*](makePSOCKCluster.PNG)
+ 
+ In addition, we also observed that, in brute force method, since we are selecting the best value out of all possible combinations, the program was taking more time in parLapply method since program had to form all possible combination and combine the combination in string format for further processing. As n value increases this task becomes bottleneck. Refer below image to visualize the time take by the task for n = 20 
+ 
+![](parLapply.PNG)
+
+As a remedy we tried to introduce while loop instead of parLapply and limit the combination of elements such that we allow the algorithm to form combination only till maximum weight that can be filled. In that way we save time that the algorithm would spend on forming un-necessary string combinations. 
+
+![](WhileLoop.PNG)
+
+By this we could achieve a gain of approximately 20 sec for n = 20, and the original program was not rendering any output for beyond n = 20, but after treating the bottleneck we could visualize the output till n = 25 (~108 sec)
+
+Finally as n values still increases beyond n = 25, the number of combination formed will exceed the memory that an array can hold (4GB).
+
+## Dynamic Method:
+ The program written is taking $O(Wn)$ duration and there is no major bottleneck observed.
+ 
+## Greedy Method:
+  The program written is taking  $O(nlog(n))$ duration and there is no major bottleneck observed.
