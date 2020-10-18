@@ -1,0 +1,468 @@
+---
+title: "Computational Complexity"
+author: "Keshav Padiyar Manuru"
+date: "12/10/2020"
+output: pdf_document
+---
+
+# Exercise 1
+
+## a
+
+$\sum_{i=2}^n \binom{i}{2} = \binom{n+i}{3}$
+
+### proof:
+
+$\sum_{i=2}^n \binom{i}{2} = \sum_{i=1}^n \frac{2!}{0! 2!} + \frac{3!}{1!2!}+ ...$
+
+$= \sum_{i=2}^n \frac{i!}{2!(i-2)!}$
+
+$= \sum_{i=2}^n \frac{i (i-1) (!-2)!}{2!(i-2)!}$ 
+
+$= \sum_{i=2}^n \frac{i (i-1)}{2}$ 
+
+$= \sum_{i=2}^n \frac{i^2-i}{2}$ 
+
+$= \sum_{i=1}^n \frac{i^2}{2}-1-\sum_{i=1}^n \frac{i}{2}-1$
+
+$=\frac{n(n+1)(2n+1)}{6 *2} - \frac{n(n+1)}{2 * 2}$
+
+$=\frac{n(n+1)(2n-2)}{6*2}$
+
+$=\frac{n(n+1)(n-1)}{6}$
+
+$=\frac{(n+1) n (n-1)}{3*2}$
+
+multiply and divide by $(n-2)!$
+
+$=\frac{(n+1) n (n-1) (n-2)!}{3*2 (n-2)!}$
+
+$=\frac{(n+1) n (n-1) (n-2)!}{3*2 (n+1 - 3)!}$
+
+$=\frac{(n+1) n (n-1) (n-2)!}{3! (n+1 - 3)!}$
+
+$= \binom{n+i}{3}$
+
+## b
+
+$\sum_{i=1}^n i^3 = (\frac{n(n+1)}{2})^2$
+
+### proof:
+
+expanding  $\sum_{i=1}^n i^4 - (i-1)^4$
+
+$\sum_{i=1}^n i^4 - (i-1)^4 = n^4 - (n-1)^4 + (n-1)^4 - (n-2)^4 + ....+3^4-2^4+2^4-1^4+1^4-0^4$
+
+$\sum_{i=1}^n i^4 - (i-1)^4 = n^4$ ..... $(1)$ As remaining terms gets canceled with each others.
+
+lets solve  $i^4 - (i-1)^4$
+
+$i^4 - (i-1)^4 = i^4 - [(i-1)^2(i-1)^2]$
+
+$= i^3 - 6i^2 + 4i - 1$
+
+$and, \sum_{i=1}^n  i^4 - (i-1)^4  = \sum_{i=1}^n 4i^3 - \sum_{i=1}^n 6i^2+ \sum_{i=1}^n 4i -\sum_{i=1}^n 1$
+
+$\sum_{i=1}^n i^4 - (i-1)^4 = 4\sum_{i=1}^n i^3 - \frac{6 n (n+1) (2n+1)}{6} + \frac{4 n (n+1)}{2} - n$
+
+by $(1)$
+
+$4\sum_{i=1}^n i^3 - \frac{6 n (n+1) (2n+1)}{6} + \frac{4 n (n+1)}{2} - n =  n^4$
+
+$4\sum_{i=1}^n i^3  =  n^4 + \frac{6 n (n+1) (2n+1)}{6} - \frac{4 n (n+1)}{2} + n$
+
+$4\sum_{i=1}^n i^3  =  n^2(n+1)^2$
+
+$\sum_{i=1}^n i^3  =  \frac{n^2(n+1)^2}{4}$
+
+$\sum_{i=1}^n i^3  =  (\frac{n(n+1)}{2})^2$
+
+# Exercise 2
+
+## a
+
+$(x^2+ 3x+ 1)^3 = o(x^6)$
+
+for $f(n) = o(g(n))$
+
+$\lim_{n \to \inf} \frac{f(n)}{g(n)} = 0$
+
+for $f(n)$ expand $(x^2+ 3x+ 1)^3$
+
+$f(n) = x^6+9x^5+30x^4+45^x3+30x^2+9x+1$
+
+$g(n) = x^6$ 
+
+since  $\lim_{x \to \inf} (\frac{x^6+9x^5+30x^4+45^x3+30x^2+9x+1}{x^6}) \ne 0$ 
+
+ANS (a): **FALSE**
+
+## b
+
+$\frac{\sqrt{x}+1}{2} = o(1)$
+
+for $f(n) = o(g(n))$
+
+$\lim_{n \to \inf} \frac{f(n)}{g(n)}= 0$
+
+since  $\lim_{x \to \inf} (\frac{\sqrt{x}+1}{2 * 1}) \ne 0$ 
+
+ANS (b): **FALSE**
+
+## c
+
+$e^\frac{1}{x} = o(1)$
+
+for $f(n) = o(g(n))$
+
+$\lim_{n \to \inf} \frac{f(n)}{g(n)} = 0$
+
+since  $\lim_{x \to \inf} \frac {e^\frac{1}{x}}{1} \ne 0$ 
+
+$e^\frac{1}{\inf} = e^0 = 1$
+
+ANS (c): **FALSE**
+
+## d
+
+$\frac{1}{x} = o(1)$
+
+for $f(n) = o(g(n))$
+
+$\lim_{n \to \inf} \frac{f(n)}{g(n)} = 0$
+
+since  $\lim_{x \to \inf} \frac {\frac{1}{x}}{1} =  0$ 
+
+ANS (d): **TRUE**
+
+## e
+
+$x^3(\log(\log{x}))^2 = o(x^3 \log{x})$
+
+for $f(n) = o(g(n))$
+
+$\lim_{n \to \inf} \frac{f(n)}{g(n)} = 0$
+
+$\lim_{x \to \inf} \frac{x^3(\log(\log{x}))^2}{x^3 \log{x}}$
+
+let us consider $y = \log{x}$
+
+then 
+
+$\lim_{y \to \inf} \frac{(\log{y})^2}{y} = 0$
+
+ANS (e): **TRUE**
+
+## f
+$\sqrt{\log{x}+1} = \Theta{(\log\log{x})}$
+
+for $\Theta{(n)}$
+
+$c1g(n)\le f(n) \le c2g(n)$
+
+let us consider $y = \log{x}$
+
+$\sqrt{y+1} = \Theta{(\log{y})}$
+
+$\sqrt{y+1} \approx \sqrt{y}$
+
+since $\frac{d\sqrt{y}}{dy} > \frac{d\log{y}}{dy}$ 
+
+$\sqrt{\log{x}+1} > c2(\log\log{x})$ 
+
+ANS (f): **FALSE**
+
+## g
+
+$2+sin{x} = \Omega{(1)}$
+
+for $\Omega{(n)}$
+
+$f(n) \ge c g(n)$
+
+since $\sin(x)$ ranges from -1 to 1
+
+$2+sin{x} \ge 1$ and $2+sin{x} \ge c(1)$
+
+ANS (g): **TRUE**
+
+## h
+
+$\frac{\cos{x}}{x} = O{(1)}$
+
+for $O{(n)}$
+
+$f(n) \le c g(n)$
+
+since $\lim_{x \to \inf} \frac{\cos(x)}{x} \approx 0, x\ne0$
+
+$\frac{\cos(x)}{x} \le c * 1$
+
+ANS (h): **TRUE**
+
+## i
+$\int_{4}^x \frac{dt}{t} = O(\ln{x})$
+
+for $O{(n)}$
+
+$f(n) \le c g(n)$
+
+$\int_{4}^x \frac{dt}{t} = \ln{t}|_{4}^x = \ln{x} - \ln{4} \approx \ln{x}$
+
+$\int_{4}^x \frac{dt}{t} \le c (\ln x)$
+
+ANS (i): **TRUE**
+
+## j
+
+$\sum_{j=1}^x \frac {1}{j^2} = O(1)$
+
+for $O{(n)}$
+
+$f(n) \le cg(n)$
+
+$\sum_{j=1}^{\inf}\frac{1}{j^2} = \frac{\pi^2}{6}$
+
+$\sum_{j=1}^x \frac{1}{j^2}<\frac{\pi^2}{6}$
+
+$\sum_{j=1}^x \frac{1}{j^2}\le c*(1)$
+
+ANS (j): **TRUE**
+
+## k
+
+$\sum_{j=1}^n 1 = \Theta(x)$
+
+for $\Theta{(n)}$
+
+$c1g(n)\le f(n) \le c2g(n)$
+
+$\sum_{j=1}^x 1 = x$
+
+$c1(x)\le \sum_{j=1}^x 1 \le c2(x)$
+
+ANS (k): **TRUE**
+
+## l
+
+$\int_{0}^x e^{-t^2} dt = O(1)$
+
+for $O{(n)}$
+
+$f(n) \le c g(n)$
+
+$\int_{-\inf}^{\inf} e^{-t^2} dt = \sqrt{\pi}$
+
+$\int_{0}^x e^{-t^2}dt < \sqrt{\pi}$
+
+$\int_{0}^x e^{-t^2}dt < c*(1)$
+
+ANS (k): **TRUE**
+
+# Exercise 3
+
+## a
+
+**ANS**: ${e^{\log{n^3}}}, n{^{3.01}}, 2^{\sqrt{n}},{2^{n^2}}$
+
+## b
+
+**ANS**: $1+{\log^3{n}},{n^{{1.6}}},{n^{\log n}},{\sqrt{n!}}$
+
+## c
+
+**ANS**: ${(\log\log n)^2}, n^3\log{n}, (n+4)^9, 2^{n\sqrt{n}}$
+
+## d
+
+**ANS**: $({\frac{1}{3}})^n, 17, {\log \log n}, {\log n}, 2^{\sqrt{\log n}} ,{\sqrt{n}}, {{\sqrt{n}}{(\log n)}}, {\frac{n}{logn}}, 2n, {{(\frac{3}{2})}^n},(\frac{n}{2})^{\log n}$
+
+# Exercise 4
+
+## a 
+
+$\binom{2}{3}^n+\sum_{i=1}^n{\sin^2 n}+n^2+\ln{(\sum_{i=1}^n{\binom{n}{i}})}$
+
+$\frac{d{\binom{2}{3}^n}}{dn} = n *\binom{2}{3}^{n-1}$
+
+$\frac{d{\sum_{i=1}^n{\sin^2 n}}}{dn} = \sum_{i=1}^n{\sin2n}$
+
+$\frac{dn^2}{dn} = 2n$
+
+$\frac{d{\ln{(\sum_{i=1}^n{\binom{n}{i}})}}}{dn} = \frac{d{\ln{2^n}}}{dn} = \frac{d{\frac{\log_{2}{{2}^{n}}}{\log_2e}}}{dn} = \frac{d{\frac{n}{log_2e}}}{dn} = \frac{1}{\log_2e}$
+
+**ANS**: $n *\binom{2}{3}^{n-1}+\sum_{i=1}^n{\sin2n}+2n+\frac{1}{\log_2e}$
+
+## b
+
+$\binom{n}{2}+\sum_{1}^n{\log n}+n^2{\sin n}$
+
+$\frac{d\binom{n}{2}}{dn} = \frac{d{\frac{n(n-1)}{2}}}{dn} = \frac{2n-1}{2}$
+
+$\frac{d\sum_{1}^n{\log n}}{dn} = \sum_{1}^n{\frac{1}{n}}$
+
+$\frac{dn^2{\sin n}}{dn} = 2n{\sin n}+n^2{\cos n}$
+
+**ANS**: $\frac{2n-1}{2} + \sum_{1}^n{\frac{1}{n}} +2n{\sin n}+n^2{\cos n}$
+
+# Exercise 5
+
+**ANS**: **d** $2^{\sqrt{n}}$ grows faster than $n^2$ and slower than $\sqrt{2^n}$
+
+# Exercise 6
+
+Outer Loop: $0(\sqrt{n})$
+
+Inner Loop: $0(\sqrt{n})$
+
+**ANS**: $O(n)$
+
+# Exercise 7
+
+Outer Loop: $0({n})$
+
+1st Inner Loop: $0({n})$
+
+2nd Inner Loop: $0({n})$
+
+**ANS**: $O(n^3)$
+
+# Exercise 8
+
+**ANS**
+
+$2n$ multiplication operations need to be done in the worst case
+
+$n$ summations
+
+# Exercise 9
+
+Outer Loop: $0({n-1}) \approx O(n)$
+
+1st Inner Loop: $0({n-1}) \approx O(n)$
+
+2nd Inner Loop: $0({n-1}) \approx O(n)$
+
+**ANS**: $O(n^3)$
+
+# Exercise 10
+
+Outer Loop: $0({n-1}) \approx O(n)$
+
+1st Inner Loop: $0({n/2})$
+
+2nd Inner Loop: $0({n/2})$
+
+$ = O(n)*((O({n/2})+O(n/2)))$
+
+**ANS**: $O(n^2)$
+
+# Exercise 11
+
+Outer Loop: $0({n-1}) \approx O(n)$
+
+1st Inner Loop: $0({n/2})$
+
+2nd Inner Loop: $0({n/2})$
+
+$= O(n)*((O({n/2})*O(n/2))) = O(n^3/4) \approx O(n^3)$
+
+**ANS**: $O(n^3)$
+
+# Exercise 12
+
+## a $\Theta(n^2) summations$
+```{r}
+M <- matrix(c(1,2,3,4,5,6,7,8,9), nrow = 3)
+
+sum = 0
+
+for (i in 1: nrow(M)){
+
+    for (j in 1:i){
+    
+    sum = sum + M[i,j]
+    
+  }
+}
+sum
+```
+## b $\Theta{(n)} summations$
+```{r}
+M <- matrix(c(1,2,3,4,5,6,7,8,9), nrow = 3)
+
+v = 0
+
+for (i in 1:nrow(M)){
+ 
+ v = v + sum(M[i,1:i])
+ 
+}
+
+v
+
+```
+## c $O(1) summations$
+```{r}
+M <- matrix(c(1,2,3,4,5,6,7,8,9), nrow = 3)
+
+sum(M[lower.tri(M,diag = TRUE)])
+```
+
+
+# Exercise 13
+
+## a
+
+**ANS**: $O(2^{n}-1)$ and the function returns $2^{n-1}$ values for $n>1$ 
+
+## b
+
+**ANS**: $O(n)$ and the function returns$2^{n-1}$ values for $n>1$ 
+
+## c
+
+**ANS**: $O(n)$ and the function returns $1$ 
+
+## d
+
+**ANS**: $O(n)$ and the function returns $n$ 
+
+# Exercise 14
+
+**ANS**: $O(n^3)$
+
+# Exercise 15
+
+**ANS**: $O(2^n)$ and the function returns $n$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

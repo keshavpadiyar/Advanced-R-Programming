@@ -1,0 +1,619 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Computational Complexity},
+  pdfauthor={Keshav Padiyar Manuru},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Computational Complexity}
+\author{Keshav Padiyar Manuru}
+\date{12/10/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{exercise-1}{%
+\section{Exercise 1}\label{exercise-1}}
+
+\hypertarget{a}{%
+\subsection{a}\label{a}}
+
+\(\sum_{i=2}^n \binom{i}{2} = \binom{n+i}{3}\)
+
+\hypertarget{proof}{%
+\subsubsection{proof:}\label{proof}}
+
+\(\sum_{i=2}^n \binom{i}{2} = \sum_{i=1}^n \frac{2!}{0! 2!} + \frac{3!}{1!2!}+ ...\)
+
+\(= \sum_{i=2}^n \frac{i!}{2!(i-2)!}\)
+
+\(= \sum_{i=2}^n \frac{i (i-1) (!-2)!}{2!(i-2)!}\)
+
+\(= \sum_{i=2}^n \frac{i (i-1)}{2}\)
+
+\(= \sum_{i=2}^n \frac{i^2-i}{2}\)
+
+\(= \sum_{i=1}^n \frac{i^2}{2}-1-\sum_{i=1}^n \frac{i}{2}-1\)
+
+\(=\frac{n(n+1)(2n+1)}{6 *2} - \frac{n(n+1)}{2 * 2}\)
+
+\(=\frac{n(n+1)(2n-2)}{6*2}\)
+
+\(=\frac{n(n+1)(n-1)}{6}\)
+
+\(=\frac{(n+1) n (n-1)}{3*2}\)
+
+multiply and divide by \((n-2)!\)
+
+\(=\frac{(n+1) n (n-1) (n-2)!}{3*2 (n-2)!}\)
+
+\(=\frac{(n+1) n (n-1) (n-2)!}{3*2 (n+1 - 3)!}\)
+
+\(=\frac{(n+1) n (n-1) (n-2)!}{3! (n+1 - 3)!}\)
+
+\(= \binom{n+i}{3}\)
+
+\hypertarget{b}{%
+\subsection{b}\label{b}}
+
+\(\sum_{i=1}^n i^3 = (\frac{n(n+1)}{2})^2\)
+
+\hypertarget{proof-1}{%
+\subsubsection{proof:}\label{proof-1}}
+
+expanding \(\sum_{i=1}^n i^4 - (i-1)^4\)
+
+\(\sum_{i=1}^n i^4 - (i-1)^4 = n^4 - (n-1)^4 + (n-1)^4 - (n-2)^4 + ....+3^4-2^4+2^4-1^4+1^4-0^4\)
+
+\(\sum_{i=1}^n i^4 - (i-1)^4 = n^4\) \ldots.. \((1)\) As remaining terms
+gets canceled with each others.
+
+lets solve \(i^4 - (i-1)^4\)
+
+\(i^4 - (i-1)^4 = i^4 - [(i-1)^2(i-1)^2]\)
+
+\(= i^3 - 6i^2 + 4i - 1\)
+
+\(and, \sum_{i=1}^n i^4 - (i-1)^4 = \sum_{i=1}^n 4i^3 - \sum_{i=1}^n 6i^2+ \sum_{i=1}^n 4i -\sum_{i=1}^n 1\)
+
+\(\sum_{i=1}^n i^4 - (i-1)^4 = 4\sum_{i=1}^n i^3 - \frac{6 n (n+1) (2n+1)}{6} + \frac{4 n (n+1)}{2} - n\)
+
+by \((1)\)
+
+\(4\sum_{i=1}^n i^3 - \frac{6 n (n+1) (2n+1)}{6} + \frac{4 n (n+1)}{2} - n = n^4\)
+
+\(4\sum_{i=1}^n i^3 = n^4 + \frac{6 n (n+1) (2n+1)}{6} - \frac{4 n (n+1)}{2} + n\)
+
+\(4\sum_{i=1}^n i^3 = n^2(n+1)^2\)
+
+\(\sum_{i=1}^n i^3 = \frac{n^2(n+1)^2}{4}\)
+
+\(\sum_{i=1}^n i^3 = (\frac{n(n+1)}{2})^2\)
+
+\hypertarget{exercise-2}{%
+\section{Exercise 2}\label{exercise-2}}
+
+\hypertarget{a-1}{%
+\subsection{a}\label{a-1}}
+
+\((x^2+ 3x+ 1)^3 = o(x^6)\)
+
+for \(f(n) = o(g(n))\)
+
+\(\lim_{n \to \inf} \frac{f(n)}{g(n)} = 0\)
+
+for \(f(n)\) expand \((x^2+ 3x+ 1)^3\)
+
+\(f(n) = x^6+9x^5+30x^4+45^x3+30x^2+9x+1\)
+
+\(g(n) = x^6\)
+
+since
+\(\lim_{x \to \inf} (\frac{x^6+9x^5+30x^4+45^x3+30x^2+9x+1}{x^6}) \ne 0\)
+
+ANS (a): \textbf{FALSE}
+
+\hypertarget{b-1}{%
+\subsection{b}\label{b-1}}
+
+\(\frac{\sqrt{x}+1}{2} = o(1)\)
+
+for \(f(n) = o(g(n))\)
+
+\(\lim_{n \to \inf} \frac{f(n)}{g(n)}= 0\)
+
+since \(\lim_{x \to \inf} (\frac{\sqrt{x}+1}{2 * 1}) \ne 0\)
+
+ANS (b): \textbf{FALSE}
+
+\hypertarget{c}{%
+\subsection{c}\label{c}}
+
+\(e^\frac{1}{x} = o(1)\)
+
+for \(f(n) = o(g(n))\)
+
+\(\lim_{n \to \inf} \frac{f(n)}{g(n)} = 0\)
+
+since \(\lim_{x \to \inf} \frac {e^\frac{1}{x}}{1} \ne 0\)
+
+\(e^\frac{1}{\inf} = e^0 = 1\)
+
+ANS (c): \textbf{FALSE}
+
+\hypertarget{d}{%
+\subsection{d}\label{d}}
+
+\(\frac{1}{x} = o(1)\)
+
+for \(f(n) = o(g(n))\)
+
+\(\lim_{n \to \inf} \frac{f(n)}{g(n)} = 0\)
+
+since \(\lim_{x \to \inf} \frac {\frac{1}{x}}{1} = 0\)
+
+ANS (d): \textbf{TRUE}
+
+\hypertarget{e}{%
+\subsection{e}\label{e}}
+
+\(x^3(\log(\log{x}))^2 = o(x^3 \log{x})\)
+
+for \(f(n) = o(g(n))\)
+
+\(\lim_{n \to \inf} \frac{f(n)}{g(n)} = 0\)
+
+\(\lim_{x \to \inf} \frac{x^3(\log(\log{x}))^2}{x^3 \log{x}}\)
+
+let us consider \(y = \log{x}\)
+
+then
+
+\(\lim_{y \to \inf} \frac{(\log{y})^2}{y} = 0\)
+
+ANS (e): \textbf{TRUE}
+
+\hypertarget{f}{%
+\subsection{f}\label{f}}
+
+\(\sqrt{\log{x}+1} = \Theta{(\log\log{x})}\)
+
+for \(\Theta{(n)}\)
+
+\(c1g(n)\le f(n) \le c2g(n)\)
+
+let us consider \(y = \log{x}\)
+
+\(\sqrt{y+1} = \Theta{(\log{y})}\)
+
+\(\sqrt{y+1} \approx \sqrt{y}\)
+
+since \(\frac{d\sqrt{y}}{dy} > \frac{d\log{y}}{dy}\)
+
+\(\sqrt{\log{x}+1} > c2(\log\log{x})\)
+
+ANS (f): \textbf{FALSE}
+
+\hypertarget{g}{%
+\subsection{g}\label{g}}
+
+\(2+sin{x} = \Omega{(1)}\)
+
+for \(\Omega{(n)}\)
+
+\(f(n) \ge c g(n)\)
+
+since \(\sin(x)\) ranges from -1 to 1
+
+\(2+sin{x} \ge 1\) and \(2+sin{x} \ge c(1)\)
+
+ANS (g): \textbf{TRUE}
+
+\hypertarget{h}{%
+\subsection{h}\label{h}}
+
+\(\frac{\cos{x}}{x} = O{(1)}\)
+
+for \(O{(n)}\)
+
+\(f(n) \le c g(n)\)
+
+since \(\lim_{x \to \inf} \frac{\cos(x)}{x} \approx 0, x\ne0\)
+
+\(\frac{\cos(x)}{x} \le c * 1\)
+
+ANS (h): \textbf{TRUE}
+
+\hypertarget{i}{%
+\subsection{i}\label{i}}
+
+\(\int_{4}^x \frac{dt}{t} = O(\ln{x})\)
+
+for \(O{(n)}\)
+
+\(f(n) \le c g(n)\)
+
+\(\int_{4}^x \frac{dt}{t} = \ln{t}|_{4}^x = \ln{x} - \ln{4} \approx \ln{x}\)
+
+\(\int_{4}^x \frac{dt}{t} \le c (\ln x)\)
+
+ANS (i): \textbf{TRUE}
+
+\hypertarget{j}{%
+\subsection{j}\label{j}}
+
+\(\sum_{j=1}^x \frac {1}{j^2} = O(1)\)
+
+for \(O{(n)}\)
+
+\(f(n) \le cg(n)\)
+
+\(\sum_{j=1}^{\inf}\frac{1}{j^2} = \frac{\pi^2}{6}\)
+
+\(\sum_{j=1}^x \frac{1}{j^2}<\frac{\pi^2}{6}\)
+
+\(\sum_{j=1}^x \frac{1}{j^2}\le c*(1)\)
+
+ANS (j): \textbf{TRUE}
+
+\hypertarget{k}{%
+\subsection{k}\label{k}}
+
+\(\sum_{j=1}^n 1 = \Theta(x)\)
+
+for \(\Theta{(n)}\)
+
+\(c1g(n)\le f(n) \le c2g(n)\)
+
+\(\sum_{j=1}^x 1 = x\)
+
+\(c1(x)\le \sum_{j=1}^x 1 \le c2(x)\)
+
+ANS (k): \textbf{TRUE}
+
+\hypertarget{l}{%
+\subsection{l}\label{l}}
+
+\(\int_{0}^x e^{-t^2} dt = O(1)\)
+
+for \(O{(n)}\)
+
+\(f(n) \le c g(n)\)
+
+\(\int_{-\inf}^{\inf} e^{-t^2} dt = \sqrt{\pi}\)
+
+\(\int_{0}^x e^{-t^2}dt < \sqrt{\pi}\)
+
+\(\int_{0}^x e^{-t^2}dt < c*(1)\)
+
+ANS (k): \textbf{TRUE}
+
+\hypertarget{exercise-3}{%
+\section{Exercise 3}\label{exercise-3}}
+
+\hypertarget{a-2}{%
+\subsection{a}\label{a-2}}
+
+\textbf{ANS}: \({e^{\log{n^3}}}, n{^{3.01}}, 2^{\sqrt{n}},{2^{n^2}}\)
+
+\hypertarget{b-2}{%
+\subsection{b}\label{b-2}}
+
+\textbf{ANS}: \(1+{\log^3{n}},{n^{{1.6}}},{n^{\log n}},{\sqrt{n!}}\)
+
+\hypertarget{c-1}{%
+\subsection{c}\label{c-1}}
+
+\textbf{ANS}: \({(\log\log n)^2}, n^3\log{n}, (n+4)^9, 2^{n\sqrt{n}}\)
+
+\hypertarget{d-1}{%
+\subsection{d}\label{d-1}}
+
+\textbf{ANS}:
+\(({\frac{1}{3}})^n, 17, {\log \log n}, {\log n}, 2^{\sqrt{\log n}} ,{\sqrt{n}}, {{\sqrt{n}}{(\log n)}}, {\frac{n}{logn}}, 2n, {{(\frac{3}{2})}^n},(\frac{n}{2})^{\log n}\)
+
+\hypertarget{exercise-4}{%
+\section{Exercise 4}\label{exercise-4}}
+
+\hypertarget{a-3}{%
+\subsection{a}\label{a-3}}
+
+\(\binom{2}{3}^n+\sum_{i=1}^n{\sin^2 n}+n^2+\ln{(\sum_{i=1}^n{\binom{n}{i}})}\)
+
+\(\frac{d{\binom{2}{3}^n}}{dn} = n *\binom{2}{3}^{n-1}\)
+
+\(\frac{d{\sum_{i=1}^n{\sin^2 n}}}{dn} = \sum_{i=1}^n{\sin2n}\)
+
+\(\frac{dn^2}{dn} = 2n\)
+
+\(\frac{d{\ln{(\sum_{i=1}^n{\binom{n}{i}})}}}{dn} = \frac{d{\ln{2^n}}}{dn} = \frac{d{\frac{\log_{2}{{2}^{n}}}{\log_2e}}}{dn} = \frac{d{\frac{n}{log_2e}}}{dn} = \frac{1}{\log_2e}\)
+
+\textbf{ANS}:
+\(n *\binom{2}{3}^{n-1}+\sum_{i=1}^n{\sin2n}+2n+\frac{1}{\log_2e}\)
+
+\hypertarget{b-3}{%
+\subsection{b}\label{b-3}}
+
+\(\binom{n}{2}+\sum_{1}^n{\log n}+n^2{\sin n}\)
+
+\(\frac{d\binom{n}{2}}{dn} = \frac{d{\frac{n(n-1)}{2}}}{dn} = \frac{2n-1}{2}\)
+
+\(\frac{d\sum_{1}^n{\log n}}{dn} = \sum_{1}^n{\frac{1}{n}}\)
+
+\(\frac{dn^2{\sin n}}{dn} = 2n{\sin n}+n^2{\cos n}\)
+
+\textbf{ANS}:
+\(\frac{2n-1}{2} + \sum_{1}^n{\frac{1}{n}} +2n{\sin n}+n^2{\cos n}\)
+
+\hypertarget{exercise-5}{%
+\section{Exercise 5}\label{exercise-5}}
+
+\textbf{ANS}: \textbf{d} \(2^{\sqrt{n}}\) grows faster than \(n^2\) and
+slower than \(\sqrt{2^n}\)
+
+\hypertarget{exercise-6}{%
+\section{Exercise 6}\label{exercise-6}}
+
+Outer Loop: \(0(\sqrt{n})\)
+
+Inner Loop: \(0(\sqrt{n})\)
+
+\textbf{ANS}: \(O(n)\)
+
+\hypertarget{exercise-7}{%
+\section{Exercise 7}\label{exercise-7}}
+
+Outer Loop: \(0({n})\)
+
+1st Inner Loop: \(0({n})\)
+
+2nd Inner Loop: \(0({n})\)
+
+\textbf{ANS}: \(O(n^3)\)
+
+\hypertarget{exercise-8}{%
+\section{Exercise 8}\label{exercise-8}}
+
+\textbf{ANS}
+
+\(2n\) multiplication operations need to be done in the worst case
+
+\(n\) summations
+
+\hypertarget{exercise-9}{%
+\section{Exercise 9}\label{exercise-9}}
+
+Outer Loop: \(0({n-1}) \approx O(n)\)
+
+1st Inner Loop: \(0({n-1}) \approx O(n)\)
+
+2nd Inner Loop: \(0({n-1}) \approx O(n)\)
+
+\textbf{ANS}: \(O(n^3)\)
+
+\hypertarget{exercise-10}{%
+\section{Exercise 10}\label{exercise-10}}
+
+Outer Loop: \(0({n-1}) \approx O(n)\)
+
+1st Inner Loop: \(0({n/2})\)
+
+2nd Inner Loop: \(0({n/2})\)
+
+\$ = O(n)*((O(\{n/2\})+O(n/2)))\$
+
+\textbf{ANS}: \(O(n^2)\)
+
+\hypertarget{exercise-11}{%
+\section{Exercise 11}\label{exercise-11}}
+
+Outer Loop: \(0({n-1}) \approx O(n)\)
+
+1st Inner Loop: \(0({n/2})\)
+
+2nd Inner Loop: \(0({n/2})\)
+
+\(= O(n)*((O({n/2})*O(n/2))) = O(n^3/4) \approx O(n^3)\)
+
+\textbf{ANS}: \(O(n^3)\)
+
+\hypertarget{exercise-12}{%
+\section{Exercise 12}\label{exercise-12}}
+
+\hypertarget{a-thetan2-summations}{%
+\subsection{\texorpdfstring{a
+\(\Theta(n^2) summations\)}{a \textbackslash Theta(n\^{}2) summations}}\label{a-thetan2-summations}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{M <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{3}\NormalTok{)}
+
+\NormalTok{sum =}\StringTok{ }\DecValTok{0}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\StringTok{ }\KeywordTok{nrow}\NormalTok{(M))\{}
+
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{i)\{}
+    
+\NormalTok{    sum =}\StringTok{ }\NormalTok{sum }\OperatorTok{+}\StringTok{ }\NormalTok{M[i,j]}
+    
+\NormalTok{  \}}
+\NormalTok{\}}
+\NormalTok{sum}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 26
+\end{verbatim}
+
+\hypertarget{b-thetan-summations}{%
+\subsection{\texorpdfstring{b
+\(\Theta{(n)} summations\)}{b \textbackslash Theta\{(n)\} summations}}\label{b-thetan-summations}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{M <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{3}\NormalTok{)}
+
+\NormalTok{v =}\StringTok{ }\DecValTok{0}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(M))\{}
+ 
+\NormalTok{ v =}\StringTok{ }\NormalTok{v }\OperatorTok{+}\StringTok{ }\KeywordTok{sum}\NormalTok{(M[i,}\DecValTok{1}\OperatorTok{:}\NormalTok{i])}
+ 
+\NormalTok{\}}
+
+\NormalTok{v}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 26
+\end{verbatim}
+
+\hypertarget{c-o1-summations}{%
+\subsection{\texorpdfstring{c
+\(O(1) summations\)}{c O(1) summations}}\label{c-o1-summations}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{M <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{3}\NormalTok{)}
+
+\KeywordTok{sum}\NormalTok{(M[}\KeywordTok{lower.tri}\NormalTok{(M,}\DataTypeTok{diag =} \OtherTok{TRUE}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 26
+\end{verbatim}
+
+\hypertarget{exercise-13}{%
+\section{Exercise 13}\label{exercise-13}}
+
+\hypertarget{a-4}{%
+\subsection{a}\label{a-4}}
+
+\textbf{ANS}: \(O(2^{n}-1)\) and the function returns \(2^{n-1}\) values
+for \(n>1\)
+
+\hypertarget{b-4}{%
+\subsection{b}\label{b-4}}
+
+\textbf{ANS}: \(O(n)\) and the function returns\(2^{n-1}\) values for
+\(n>1\)
+
+\hypertarget{c-2}{%
+\subsection{c}\label{c-2}}
+
+\textbf{ANS}: \(O(n)\) and the function returns \(1\)
+
+\hypertarget{d-2}{%
+\subsection{d}\label{d-2}}
+
+\textbf{ANS}: \(O(n)\) and the function returns \(n\)
+
+\hypertarget{exercise-14}{%
+\section{Exercise 14}\label{exercise-14}}
+
+\textbf{ANS}: \(O(n^3)\)
+
+\hypertarget{exercise-15}{%
+\section{Exercise 15}\label{exercise-15}}
+
+\textbf{ANS}: \(O(2^n)\) and the function returns \(n\)
+
+\end{document}
