@@ -149,6 +149,6 @@ print.toystore <- function(object){
 
   cat("\n current stock in the store: \n")
 
-  base::print(object[[1]][,2:3], row.names = FALSE)
+  base::print(object[[1]][,2:5], row.names = FALSE)
 
 }## End print Method
